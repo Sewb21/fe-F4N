@@ -1,5 +1,5 @@
-import React from 'react'
-import { View, Text } from 'react-native'
+import React from 'react';
+import { View, Text } from 'react-native';
 
 const JobListScreen = () => {
   return (
@@ -7,6 +7,6 @@ const JobListScreen = () => {
       <Text>Job List!</Text>
     </View>
   );
-}
+};
 
-export default JobListScreen
+export default JobListScreen;

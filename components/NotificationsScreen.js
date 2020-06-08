@@ -1,5 +1,5 @@
-import React from 'react'
-import { View, Text } from 'react-native'
+import React from 'react';
+import { View, Text } from 'react-native';
 
 const NotificationsScreen = () => {
   return (
@@ -7,6 +7,6 @@ const NotificationsScreen = () => {
       <Text>Notifications!</Text>
     </View>
   );
-}
+};
 
-export default NotificationsScreen
+export default NotificationsScreen;

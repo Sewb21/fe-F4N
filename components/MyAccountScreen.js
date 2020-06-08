@@ -1,5 +1,5 @@
-import React from 'react'
-import { View, Text } from 'react-native'
+import React from 'react';
+import { View, Text } from 'react-native';
 
 const MyAccountScreen = () => {
   return (
@@ -7,6 +7,6 @@ const MyAccountScreen = () => {
       <Text>My Account!</Text>
     </View>
   );
-}
+};
 
-export default MyAccountScreen
+export default MyAccountScreen;
