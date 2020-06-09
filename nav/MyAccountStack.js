@@ -7,7 +7,7 @@ const Stack = createStackNavigator();
 
 const MyAccountStack = () => {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: true }}>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="MyAccount" component={MyAccountScreen} />
     </Stack.Navigator>
   );
