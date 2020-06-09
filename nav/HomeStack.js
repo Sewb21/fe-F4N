@@ -1,16 +1,12 @@
-import React from 'react';
-import JobListScreen from '../components/JobListScreen';
-import AddJobScreen from '../components/AddJobScreen';
-import { createStackNavigator } from '@react-navigation/stack';
-import HomeScreen from '../components/HomeScreen';
-
+import React from "react";
+import JobListScreen from "../components/JobListScreen";
+import AddJobScreen from "../components/AddJobScreen";
+import { createStackNavigator } from "@react-navigation/stack";
+import HomeScreen from "../components/HomeScreen";
 
 const Stack = createStackNavigator();
 
 const HomeStack = () => {
-
-
-
   return (
     <Stack.Navigator screenOptions={{ headerShown: true }}>
       <Stack.Screen name="Home" component={HomeScreen} />
