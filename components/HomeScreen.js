@@ -1,20 +1,24 @@
 import React, { Component } from "react";
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
+import HeaderComponent from "./HeaderComponent";
 
 const HomeScreen = ({ navigation }) => {
   return (
-    <View style={styles.container}>
-      <TouchableOpacity onPress={() => navigation.navigate("JobList")}>
-        <View style={styles.button}>
-          <Text style={styles.buttonText}>Go To Job List</Text>
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate("AddJob")}>
-        <View style={styles.button}>
-          <Text style={styles.buttonText}>Go to Add Job</Text>
-        </View>
-      </TouchableOpacity>
-    </View>
+    <>
+      <HeaderComponent name="Home" />
+      <View style={styles.container}>
+        <TouchableOpacity onPress={() => navigation.navigate("JobList")}>
+          <View style={styles.button}>
+            <Text style={styles.buttonText}>Go To Job List</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("AddJob")}>
+          <View style={styles.button}>
+            <Text style={styles.buttonText}>Go to Add Job</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+    </>
   );
 };
 
