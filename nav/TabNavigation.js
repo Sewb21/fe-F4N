@@ -23,13 +23,13 @@ const TabNavigation = () => {
           }
 
           return <Ionicons name={iconName} size={size} color={color} />;
-        }
+        },
       })}
       tabBarOptions={{
         activeTintColor: '#fce181',
         inactiveTintColor: '#9fedd7',
         activeBackgroundColor: '#026670',
-        inactiveBackgroundColor: '#026670'
+        inactiveBackgroundColor: '#026670',
       }}
     >
       <Tab.Screen name="Home" component={HomeStack} />

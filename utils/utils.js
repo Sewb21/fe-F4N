@@ -1,24 +1,24 @@
 export default function getSkillImageLocation(skillName) {
   const skills = {
-    accounts: 'fas fa-file-invoice',
-    secretarial: '',
-    typing: 'fas fa-keyboard',
-    proofreading: 'fas fa-glasses',
-    electrics: 'fas fa-bolt',
-    roofing: '',
-    cleaning: 'fas fa-broom',
-    plumbing: 'fas fa-wrench',
-    'painting and decorating': '',
-    computers: 'fas fa-desktop',
-    gardening: 'fas fa-seedling',
-    'flat pack': 'fas fa-box-open',
-    photography: 'fas fa-camera-retro',
-    videography: 'fas fa-video',
-    sewing: '',
-    baking: '',
-    caligraphy: '',
-    tiling: '',
-    'make up artist': ''
+    accounts: 'account_balance',
+    secretarial: 'work',
+    typing: 'keyboard',
+    proofreading: 'visibility',
+    electrics: 'flash_on',
+    roofing: 'home',
+    cleaning: 'cleaning_services',
+    plumbing: 'build',
+    'painting and decorating': 'format_paint',
+    computers: 'computer',
+    gardening: 'local_florist',
+    'flat pack': 'build',
+    photography: 'camera-enhance',
+    videography: 'theaters',
+    sewing: 'accessibility',
+    baking: 'cake',
+    caligraphy: 'create',
+    tiling: 'build',
+    'make up artist': 'face'
   };
   return skills[skillName];
 }

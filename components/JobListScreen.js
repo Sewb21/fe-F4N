@@ -1,60 +1,43 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, ScrollView, ActivityIndicator } from "react-native";
 import HeaderComponent from "./HeaderComponent";
-import { ListItem, Avatar } from "react-native-elements";
 import axios from "axios";
-import getSkillImageLocation from "../utils/utils";
+import JobListItem from './JobListItem'
+import Loader from './Loader'
 
 const JobListScreen = () => {
   const [jobList, setJobs] = useState([]);
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    // getJobs()
     axios.get("https://f4n.herokuapp.com/api/jobs").then(({ data }) => {
-      setJobs(data.allJobs);
+      setJobs(data.allJobs),
+      setLoading(false);
     });
-  });
+  },[]);
 
+  if (isLoading) {
+    return <Loader isLoading={isLoading}/>;
+  }
   return (
-    <>
-      <HeaderComponent name="Job List" />
       <View style={styles.container}>
+      <HeaderComponent name="Job List" />
         <ScrollView style={styles.scrollView}>
           {jobList.map((item) => {
             return (
-              <ListItem
-                containerStyle={styles.listitem}
-                key={item.job_id}
-                title={'"' + item.title + '"'}
-                leftAvatar={
-                  <Avatar rounded icon={{ name: "computer", color: "black" }} />
-                }
-                chevron
-              />
+             <JobListItem item={item}/>
             );
           })}
         </ScrollView>
       </View>
-    </>
   );
-
-  // const getJobs = () => {
-  //   axios.get("https://f4n.herokuapp.com/api/jobs").then(({ data }) => {
-  //     setJobs(data.allJobs);
-  //   });
-  // }
+  
 };
 
 const styles = {
   container: {
     flex: 1,
-    backgroundColor: "#EDEAE5",
-  },
-  scrollView: {},
-  listitem: {
-    height: 100,
-    margin: 1,
+    backgroundColor: '#EDEAE5'
   },
 };
 

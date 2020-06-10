@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#EDEAE5',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   button: {
     backgroundColor: '#026670',
@@ -37,12 +37,12 @@ const styles = StyleSheet.create({
     padding: 6,
     paddingLeft: 20,
     paddingRight: 20,
-    margin: 5
+    margin: 5,
   },
   buttonText: {
     color: 'white',
-    fontSize: 26
-  }
+    fontSize: 26,
+  },
 });
 
 export default HomeScreen;
