@@ -1,15 +1,19 @@
-import React, { useState } from 'react';
-import { View, Text, ScrollView } from 'react-native';
-import HeaderComponent from './HeaderComponent';
-import { ListItem, Avatar } from 'react-native-elements';
-import axios from 'axios';
-import getSkillImageLocation from '../utils/utils';
+import React, { useState, useEffect } from "react";
+import { View, Text, ScrollView } from "react-native";
+import HeaderComponent from "./HeaderComponent";
+import { ListItem, Avatar } from "react-native-elements";
+import axios from "axios";
+import getSkillImageLocation from "../utils/utils";
 
 const JobListScreen = () => {
   const [jobList, setJobs] = useState([]);
+  const [isLoading, setLoading] = useState(true);
 
-  axios.get('https://f4n.herokuapp.com/api/jobs').then(({ data }) => {
-    setJobs(data.allJobs);
+  useEffect(() => {
+    // getJobs()
+    axios.get("https://f4n.herokuapp.com/api/jobs").then(({ data }) => {
+      setJobs(data.allJobs);
+    });
   });
 
   return (
@@ -23,7 +27,9 @@ const JobListScreen = () => {
                 containerStyle={styles.listitem}
                 key={item.job_id}
                 title={'"' + item.title + '"'}
-                leftAvatar={<Avatar rounded icon={{ name: 'computer', color: 'black' }} />}
+                leftAvatar={
+                  <Avatar rounded icon={{ name: "computer", color: "black" }} />
+                }
                 chevron
               />
             );
@@ -32,18 +38,24 @@ const JobListScreen = () => {
       </View>
     </>
   );
+
+  // const getJobs = () => {
+  //   axios.get("https://f4n.herokuapp.com/api/jobs").then(({ data }) => {
+  //     setJobs(data.allJobs);
+  //   });
+  // }
 };
 
 const styles = {
   container: {
     flex: 1,
-    backgroundColor: '#EDEAE5'
+    backgroundColor: "#EDEAE5",
   },
   scrollView: {},
   listitem: {
     height: 100,
-    margin: 1
-  }
+    margin: 1,
+  },
 };
 
 export default JobListScreen;
