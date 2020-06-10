@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import HeaderComponent from './HeaderComponent';
+import HeaderComponent from '../components/HeaderComponent';
 
 const MyAccountScreen = () => {
   return (

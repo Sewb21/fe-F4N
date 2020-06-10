@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
-import HeaderComponent from './HeaderComponent';
-
-const HomeScreen = ({ navigation }) => {
+import HeaderComponent from '../components/HeaderComponent';
+ 
+const HomeScreen = ({navigation}) => {
   return (
     <>
       <HeaderComponent name="Home" />

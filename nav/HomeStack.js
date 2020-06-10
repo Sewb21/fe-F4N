@@ -1,8 +1,8 @@
 import React from "react";
-import JobListScreen from "../components/JobListScreen";
-import AddJobScreen from "../components/AddJobScreen";
+import JobListScreen from "../screens/JobListScreen";
+import AddJobScreen from "../screens/AddJobScreen";
 import { createStackNavigator } from "@react-navigation/stack";
-import HomeScreen from "../components/HomeScreen";
+import HomeScreen from '../screens/HomeScreen';
 
 const Stack = createStackNavigator();
 
