@@ -23,7 +23,7 @@ const JobListScreen = () => {
       <HeaderComponent name="Job List" />
       <View style={styles.container}>
         <ScrollView style={styles.scrollView}>
-          {jobList.map((item) => {
+          {jobList.map(item => {
             return <JobListItem key={item.job_id} item={item} />;
           })}
         </ScrollView>
