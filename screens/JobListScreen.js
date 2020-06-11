@@ -4,8 +4,9 @@ import HeaderComponent from '../components/HeaderComponent';
 import axios from 'axios';
 import JobListItem from '../components/JobListItem';
 import Loader from '../components/Loader';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
-const JobListScreen = () => {
+const JobListScreen = ({ navigation }) => {
   const [jobList, setJobs] = useState([]);
   const [isLoading, setLoading] = useState(true);
 
@@ -24,7 +25,15 @@ const JobListScreen = () => {
       <View style={styles.container}>
         <ScrollView style={styles.scrollView}>
           {jobList.map(item => {
-            return <JobListItem key={item.job_id} item={item} />;
+            return (
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate('SpecificJob', { job_id: item.job_id })
+                }
+              >
+                <JobListItem key={item.job_id} item={item} />
+              </TouchableOpacity>
+            );
           })}
         </ScrollView>
       </View>

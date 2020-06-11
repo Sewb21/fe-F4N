@@ -11,7 +11,7 @@ export default function JobAdder() {
     body: '',
     username: UserContext._currentValue,
     skill_name: '',
-    // location: '',
+    location: '',
   });
   const [skills, setSkills] = useState([]);
 
@@ -59,14 +59,15 @@ export default function JobAdder() {
         items={skills}
         style={styles.dropDownPicker}
         dropDownStyle={styles.dropDownPickerDropDown}
+        containerStyle={styles.dropDownContainer}
         activeItemStyle={styles.dropDownPickerItem}
         onChangeItem={item => handleTextChange(item.label, 'skill_name')}
       />
-      {/* <Text style={styles.inputHeading}>{'Location'}</Text>
+      <Text style={styles.inputHeading}>{'Location'}</Text>
       <TextInput
         style={styles.inputBox}
         onChangeText={text => handleTextChange(text, 'location')}
-      /> */}
+      />
       <TouchableOpacity onPress={() => handleJobPost()}>
         <View style={styles.button}>
           <Text style={styles.buttonText}>Post Job</Text>
@@ -98,6 +99,7 @@ const styles = {
     backgroundColor: '#fff',
     fontSize: 14,
     color: '#026670',
+    height: 40,
   },
   inputHeading: {
     fontSize: 20,
@@ -119,5 +121,8 @@ const styles = {
   dropDownPickerItem: {
     fontSize: 14,
     color: '#026670',
+  },
+  dropDownContainer: {
+    height: 50,
   },
 };

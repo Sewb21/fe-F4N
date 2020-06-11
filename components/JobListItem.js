@@ -1,11 +1,11 @@
-import React from 'react'
-import { View, Text } from 'react-native'
+import React from 'react';
+import { View, Text } from 'react-native';
 import { ListItem, Avatar } from 'react-native-elements';
 import { getIconDetails, elapsedTimeString } from '../utils/utils';
 
-
-export default function JobListItem({item}) {
+export default function JobListItem({ item }) {
   const date = new Date(item.created_at);
+
   return (
     <View>
       <ListItem
@@ -47,9 +47,8 @@ const styles = {
   listItem: {
     height: 150,
     margin: 1,
-    
   },
   title: {
     paddingBottom: 12,
-  }
+  },
 };
