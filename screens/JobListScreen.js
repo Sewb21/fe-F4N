@@ -11,7 +11,7 @@ const JobListScreen = () => {
 
   useEffect(() => {
     axios.get('https://f4n.herokuapp.com/api/jobs').then(({ data }) => {
-      setJobs(data.allJobs), setLoading(false);
+      setJobs(data.jobs), setLoading(false);
     });
   }, []);
 
@@ -20,7 +20,6 @@ const JobListScreen = () => {
   }
   return (
     <>
-      
       <HeaderComponent name="Job List" />
       <View style={styles.container}>
         <ScrollView style={styles.scrollView}>
