@@ -27,11 +27,12 @@ const JobListScreen = ({ navigation }) => {
           {jobList.map(item => {
             return (
               <TouchableOpacity
+                key={item.job_id}
                 onPress={() =>
                   navigation.navigate('SpecificJob', { job_id: item.job_id })
                 }
               >
-                <JobListItem key={item.job_id} item={item} />
+                <JobListItem item={item} />
               </TouchableOpacity>
             );
           })}
