@@ -8,7 +8,7 @@ import {
   TextInput,
 } from 'react-native';
 import HeaderComponent from '../components/HeaderComponent';
-import firebase from '../firebase';
+import Firebase from '../firebase/firebase';
 
 const HomeScreen = ({ navigation }) => {
   const [visible, setVisible] = useState(true);
@@ -27,8 +27,7 @@ const HomeScreen = ({ navigation }) => {
 
   const handleLogIn = () => {
     const { email, password } = userInfo;
-    firebase
-      .auth()
+    Firebase.auth()
       .signInWithEmailAndPassword(email, password)
       .then(() => {
         toggleOverlay();

@@ -1,22 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, Text } from 'react-native';
 import Loader from '../components/Loader';
 import axios from 'axios';
 import { elapsedTimeString } from '../utils/utils';
 import HeaderComponent from '../components/HeaderComponent';
 import CommentList from '../components/CommentList';
+import UserContext from '../contexts/UserContext';
+import * as api from '../api-requests/axios-request';
 
 export default function SpecificJobScreen({ route }) {
+  const user = useContext(UserContext);
   const [specificJob, setSpecificJob] = useState([]);
   const [isLoading, setLoading] = useState(true);
   const jobID = route.params.job_id;
 
   useEffect(() => {
-    axios
-      .get(`https://f4n.herokuapp.com/api/jobs/${jobID}`)
-      .then(({ data }) => {
-        setSpecificJob(data.job), setLoading(false);
-      });
+    api
+      .getSpecificJob(jobID, user.authtoken)
+      .then(({ job }) => setSpecificJob(job), setLoading(false));
   }, []);
 
   if (isLoading) {
@@ -43,7 +44,7 @@ export default function SpecificJobScreen({ route }) {
         <Text style={styles.rowC4}>{elapsedTimeString(date)}</Text>
       </View>
       <Text style={styles.fieldTitle}>{'Comments'}</Text>
-      <CommentList jobID={specificJob.job_id} />
+      <CommentList jobID={jobID} />
     </View>
   );
 }

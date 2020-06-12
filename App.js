@@ -3,26 +3,34 @@ import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import TabNavigation from './nav/TabNavigation';
 import UserContext from './contexts/UserContext';
+import { auth } from './firebase/firebase';
 
 const App = () => {
-  const [username, setUsername] = useState('jbugbirdy');
+  const [userInfo, setUserInfo] = useState({
+    firebaseUser: null,
+    authtoken: null,
+    username: null,
+  });
+
+  useEffect(() => {
+    auth.onAuthStateChanged(userAuth => {
+      userAuth.getIdToken(true).then(idToken => {
+        setUserInfo({
+          firebaseUser: userAuth,
+          authtoken: idToken,
+          username: 'jbugbirdy',
+        });
+      });
+    });
+  }, []);
 
   return (
-    <UserContext.Provider value={username}>
+    <UserContext.Provider value={userInfo}>
       <NavigationContainer>
         <TabNavigation />
       </NavigationContainer>
     </UserContext.Provider>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
 
 export default App;

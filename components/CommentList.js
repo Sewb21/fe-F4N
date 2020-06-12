@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, Text } from 'react-native';
-import axios from 'axios';
+import UserContext from '../contexts/UserContext';
+import * as api from '../api-requests/axios-request';
 
 export default function CommentList({ jobID }) {
+  const user = useContext(UserContext);
   const [comments, setComments] = useState([]);
 
   useEffect(() => {
-    axios
-      .get(`https://f4n.herokuapp.com/api/jobs/${jobID}/comments`)
-      .then(({ data }) => {
-        setComments(data.comments);
-      });
+    api.getComments(jobID, user.authtoken).then(({ comments }) => {
+      setComments(comments);
+    });
   }, []);
   if (comments.length <= 0) {
     return <Text style={styles.fieldTitle}>No Comments</Text>;
