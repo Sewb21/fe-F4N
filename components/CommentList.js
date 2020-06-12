@@ -65,7 +65,7 @@ const styles = {
     color: '#026670',
   },
   container: {
-    height: 250,
+    height: '100%',
   },
   scrollView: {},
   commentView: {

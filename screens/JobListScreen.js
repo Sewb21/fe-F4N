@@ -23,7 +23,7 @@ const JobListScreen = ({ navigation }) => {
     <>
       <HeaderComponent name="Job List" />
       <View style={styles.container}>
-        <ScrollView style={styles.scrollView}>
+        <ScrollView>
           {jobList.map(item => {
             return (
               <TouchableOpacity
