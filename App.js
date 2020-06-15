@@ -14,13 +14,15 @@ const App = () => {
 
   useEffect(() => {
     auth.onAuthStateChanged(userAuth => {
-      userAuth.getIdToken(true).then(idToken => {
-        setUserInfo({
-          firebaseUser: userAuth,
-          authtoken: idToken,
-          username: 'jbugbirdy',
+      if (userAuth) {
+        userAuth.getIdToken(true).then(idToken => {
+          setUserInfo({
+            firebaseUser: userAuth,
+            authtoken: idToken,
+            username: 'jbugbirdy',
+          });
         });
-      });
+      }
     });
   }, []);
 
