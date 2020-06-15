@@ -1,6 +1,7 @@
 import { auth, storage } from '../firebase/firebase';
+import * as api from '../api-requests/axios-request';
 
-const onPhotoUploadCompletion = () => {
+const onPhotoUploadCompletion = (auth, newUserInfo) => {
   storage
     .ref('users')
     .child(auth.user.uid + '/profile.jpg')
@@ -10,25 +11,20 @@ const onPhotoUploadCompletion = () => {
 
       const userInfoPost = {
         avatar_url,
-        skill_name,
+        skill_name: [skill_name],
         ...userInfoNoPassword,
       };
 
-      api
-        .postUser(userInfoPost)
-        .then(res => {
-          return console.log('this worked on server', res);
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      api.postUser(userInfoPost).catch(err => {
+        console.log(err);
+      });
     });
 };
 
-export const userSignUp = newUserInfo => {
+export const userSignUp = (newUserInfo, image) => {
   const { email, password } = newUserInfo;
 
-  auth.createUserWithEmailAndPassword(email, password).then(auth => {
+  return auth.createUserWithEmailAndPassword(email, password).then(auth => {
     fetch(image)
       .then(res => {
         return res.blob();
@@ -45,7 +41,9 @@ export const userSignUp = newUserInfo => {
           error => {
             console.log(error);
           },
-          onPhotoUploadCompletion
+          () => {
+            onPhotoUploadCompletion(auth, newUserInfo);
+          }
         );
       });
   });
