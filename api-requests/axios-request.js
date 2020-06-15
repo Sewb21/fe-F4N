@@ -51,7 +51,6 @@ export const getCharities = () => {
 };
 
 export const postUser = (userInfo, avatarURL) => {
-  console.log(userInfo);
   return instance.post('/api/users', userInfo).then(({ data }) => {
     return data;
   });
