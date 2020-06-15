@@ -6,12 +6,10 @@ const instance = axios.create({
 
 // https://f4n.herokuapp.com
 
-export const getSkills = authtoken => {
-  return instance
-    .get('/api/skills', { headers: { authtoken } })
-    .then(({ data }) => {
-      return data;
-    });
+export const getSkills = () => {
+  return instance.get('/api/skills').then(({ data }) => {
+    return data;
+  });
 };
 
 export const postJob = (jobInfo, authtoken) => {
@@ -44,4 +42,17 @@ export const getComments = (jobID, authtoken) => {
     .then(({ data }) => {
       return data;
     });
+};
+
+export const getCharities = () => {
+  return instance.get('/api/charities').then(({ data }) => {
+    return data;
+  });
+};
+
+export const postUser = (userInfo, avatarURL) => {
+  console.log(userInfo);
+  return instance.post('/api/users', userInfo).then(({ data }) => {
+    return data;
+  });
 };
