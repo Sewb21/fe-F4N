@@ -16,6 +16,14 @@ export default function JobListItem({ item }) {
           <>
             <Text>{item.username + ' , fundraising for ' + 'charityXYZ'}</Text>
             <Text>{elapsedTimeString(date)}</Text>
+            <Avatar
+              size="small"
+              rounded
+              source={{
+                uri: item.avatar_url,
+              }}
+              activeOpacity={0.7}
+            />
           </>
         }
         titleStyle={styles.title}
