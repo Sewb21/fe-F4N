@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
 
+import React, { useState, useEffect, useContext } from 'react';
+import * as api from '../api-requests/axios-request';
 import {
   View,
   Text,
@@ -12,6 +13,7 @@ import { elapsedTimeString } from '../utils/utils';
 import UserContext from '../contexts/UserContext';
 
 export default function CommentList({ jobID }) {
+  const user = useContext(UserContext);
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState({
     body: '',
@@ -19,11 +21,9 @@ export default function CommentList({ jobID }) {
   });
 
   useEffect(() => {
-    axios
-      .get(`https://f4n.herokuapp.com/api/jobs/${jobID}/comments`)
-      .then(({ data }) => {
-        setComments(data.comments);
-      });
+    api.getComments(jobID, user.authtoken).then(({ comments }) => {
+      setComments(comments);
+    });
   }, []);
 
   const handleCommentChange = commentBody => {

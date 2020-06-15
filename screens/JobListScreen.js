@@ -1,18 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, ScrollView, ActivityIndicator } from 'react-native';
 import HeaderComponent from '../components/HeaderComponent';
-import axios from 'axios';
 import JobListItem from '../components/JobListItem';
 import Loader from '../components/Loader';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import * as api from '../api-requests/axios-request';
+import UserContext from '../contexts/UserContext';
 
 const JobListScreen = ({ navigation }) => {
+  const user = useContext(UserContext);
   const [jobList, setJobs] = useState([]);
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get('https://f4n.herokuapp.com/api/jobs').then(({ data }) => {
-      setJobs(data.jobs), setLoading(false);
+    api.getJobs(user.authtoken).then(({ jobs }) => {
+      setJobs(jobs), setLoading(false);
     });
   }, []);
 

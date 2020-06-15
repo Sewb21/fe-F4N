@@ -1,8 +1,65 @@
-import React, { Component } from 'react';
-import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { Component, useState, useEffect } from 'react';
+import { Overlay, Button } from 'react-native-elements';
+import {
+  Text,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  TextInput,
+} from 'react-native';
 import HeaderComponent from '../components/HeaderComponent';
- 
-const HomeScreen = ({navigation}) => {
+import Firebase from '../firebase/firebase';
+
+const HomeScreen = ({ navigation }) => {
+  const [visible, setVisible] = useState(true);
+  const [userInfo, setUserInfo] = useState({ email: '', password: '' });
+
+  const toggleOverlay = () => {
+    setVisible(!visible);
+  };
+
+  const handleTextChange = (text, key) => {
+    let updatedUserInfo = {};
+    Object.assign(updatedUserInfo, userInfo);
+    updatedUserInfo[key] = text;
+    setUserInfo(updatedUserInfo);
+  };
+
+  const handleLogIn = () => {
+    const { email, password } = userInfo;
+    Firebase.auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(() => {
+        toggleOverlay();
+      })
+      .catch(error => console.log(error));
+  };
+
+  if (visible) {
+    return (
+      <View>
+        <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
+          <Text style={styles.inputHeading}>{'Email'}</Text>
+          <TextInput
+            style={styles.inputBox}
+            onChangeText={text => handleTextChange(text, 'email')}
+          />
+          <Text style={styles.inputHeading}>{'Password'}</Text>
+          <TextInput
+            style={styles.inputBox}
+            onChangeText={text => handleTextChange(text, 'password')}
+          />
+          <TouchableOpacity
+            style={styles.buttonContainer}
+            onPress={handleLogIn}
+          >
+            <Text style={styles.buttonText}>Log in</Text>
+          </TouchableOpacity>
+        </Overlay>
+      </View>
+    );
+  }
+
   return (
     <>
       <HeaderComponent name="Home" />
@@ -42,6 +99,38 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'white',
     fontSize: 26,
+  },
+  buttonContainer: {
+    backgroundColor: '#026670',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 7,
+    padding: 6,
+    paddingLeft: 20,
+    paddingRight: 20,
+    margin: 5,
+  },
+  buttonText: {
+    fontSize: 28,
+    color: '#ffffff',
+  },
+  inputBox: {
+    borderBottomWidth: 2,
+    borderBottomColor: '#FCE181',
+    padding: 4,
+    backgroundColor: '#fff',
+    fontSize: 14,
+    color: '#026670',
+    height: 40,
+  },
+  inputHeading: {
+    fontSize: 20,
+    marginTop: 10,
+    paddingLeft: 10,
+    color: '#026670',
+    backgroundColor: '#FEF9C7',
+    borderTopWidth: 2,
+    borderTopColor: '#FCE181',
   },
 });
 

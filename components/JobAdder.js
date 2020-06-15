@@ -1,43 +1,47 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, TouchableOpacity, TextInput } from 'react-native';
-import { Input } from 'react-native-elements';
-import UserContext from '../contexts/UserContext';
 import DropDownPicker from 'react-native-dropdown-picker';
-import axios from 'axios';
+import * as api from '../api-requests/axios-request';
+import UserContext from '../contexts/UserContext';
 
 export default function JobAdder() {
+  const user = useContext(UserContext);
+
   const [jobInfo, setJobInfo] = useState({
     title: '',
     body: '',
-    username: UserContext._currentValue,
+    username: user.username,
     skill_name: '',
     location: '',
   });
   const [skills, setSkills] = useState([]);
 
   useEffect(() => {
-    axios.get('https://f4n.herokuapp.com/api/skills').then(({ data }) => {
-      setSkills(
-        data.skills.map(skill => {
-          return { label: skill.skill_name, value: skill.skill_name };
-        })
-      );
-    });
+    api
+      .getSkills(user.authtoken)
+      .then(({ skills }) => {
+        setSkills(
+          skills.map(skill => {
+            return { label: skill.skill_name, value: skill.skill_name };
+          })
+        );
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }, []);
+
+  const handleJobPost = () => {
+    api.postJob(jobInfo, user.authtoken).catch(err => {
+      console.log(err);
+    });
+  };
 
   const handleTextChange = (text, key) => {
     let updatedJobInfo = {};
     Object.assign(updatedJobInfo, jobInfo);
     updatedJobInfo[key] = text;
     setJobInfo(updatedJobInfo);
-  };
-
-  const handleJobPost = () => {
-    axios
-      .post('https://f4n.herokuapp.com/api/jobs', jobInfo)
-      .then(({ data }) => {
-        console.log(data.job);
-      });
   };
 
   return (
@@ -68,7 +72,7 @@ export default function JobAdder() {
         style={styles.inputBox}
         onChangeText={text => handleTextChange(text, 'location')}
       />
-      <TouchableOpacity onPress={() => handleJobPost()}>
+      <TouchableOpacity onPress={() => handleJobPost(jobInfo)}>
         <View style={styles.button}>
           <Text style={styles.buttonText}>Post Job</Text>
         </View>
