@@ -15,6 +15,7 @@ export default function JobListItem({ item }) {
         subtitle={
           <>
             <Text>{item.username + ' , fundraising for ' + 'charityXYZ'}</Text>
+            <Text>{item.location + ' ' + item.job_status}</Text>
             <Text>{elapsedTimeString(date)}</Text>
             <Avatar
               size="small"
@@ -54,7 +55,7 @@ export default function JobListItem({ item }) {
 const styles = {
   listItem: {
     height: 150,
-    margin: 1,
+    marginBottom: 1,
   },
   title: {
     paddingBottom: 12,

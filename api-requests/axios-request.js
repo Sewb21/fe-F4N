@@ -1,10 +1,11 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: 'http://localhost:9090',
+  baseURL: 'https://f4n.herokuapp.com',
 });
 
-// https://f4n.herokuapp.com
+//
+// http://localhost:9090
 
 export const getSkills = authtoken => {
   return instance
@@ -18,13 +19,22 @@ export const postJob = (jobInfo, authtoken) => {
   return instance
     .post('/api/jobs', jobInfo, { headers: { authtoken } })
     .then(({ data }) => {
-      console.log('posted', data.jobs);
+      console.log(data);
     });
 };
 
-export const getJobs = authtoken => {
+export const getJobs = (authtoken, sortBy, order, location) => {
+  let params = {};
+  if (location !== '') {
+    params = { sortBy, order, location };
+  } else {
+    params = { sortBy, order };
+  }
   return instance
-    .get('/api/jobs', { headers: { authtoken } })
+    .get('/api/jobs', {
+      headers: { authtoken },
+      params,
+    })
     .then(({ data }) => {
       return data;
     });

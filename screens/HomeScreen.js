@@ -42,12 +42,14 @@ const HomeScreen = ({ navigation }) => {
           <Text style={styles.inputHeading}>{'Email'}</Text>
           <TextInput
             style={styles.inputBox}
-            onChangeText={text => handleTextChange(text, 'email')}
+            onChangeText={text =>
+              handleTextChange('afawdry0@ox.ac.uk', 'email')
+            }
           />
           <Text style={styles.inputHeading}>{'Password'}</Text>
           <TextInput
             style={styles.inputBox}
-            onChangeText={text => handleTextChange(text, 'password')}
+            onChangeText={text => handleTextChange('test123', 'password')}
           />
           <TouchableOpacity
             style={styles.buttonContainer}
@@ -110,10 +112,7 @@ const styles = StyleSheet.create({
     paddingRight: 20,
     margin: 5,
   },
-  buttonText: {
-    fontSize: 28,
-    color: '#ffffff',
-  },
+  
   inputBox: {
     borderBottomWidth: 2,
     borderBottomColor: '#FCE181',
