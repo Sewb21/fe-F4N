@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Image, View } from 'react-native';
+import { TouchableOpacity, Text, Image, View } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 
@@ -35,10 +35,29 @@ export default function ImagePickerComponent({ setImageObj }) {
 
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Button title="Upload a profile picture" onPress={pickImage} />
+      <TouchableOpacity style={styles.button} onPress={pickImage}>
+        <Text style={styles.buttonText}>Upload an Image</Text>
+      </TouchableOpacity>
       {image && (
         <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
       )}
     </View>
   );
 }
+
+const styles = {
+  button: {
+    backgroundColor: '#026670',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 7,
+    padding: 6,
+    paddingLeft: 20,
+    paddingRight: 20,
+    margin: 5,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 26,
+  },
+};
