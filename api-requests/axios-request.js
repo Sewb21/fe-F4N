@@ -1,10 +1,8 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: 'http://localhost:9090',
+  baseURL: 'https://f4n.herokuapp.com',
 });
-
-// https://f4n.herokuapp.com
 
 export const getSkills = () => {
   return instance.get('/api/skills').then(({ data }) => {
@@ -54,4 +52,17 @@ export const postUser = (userInfo, avatarURL) => {
   return instance.post('/api/users', userInfo).then(({ data }) => {
     return data;
   });
+};
+
+export const getUser = (email, authtoken) => {
+  return instance
+    .get('/api/users', {
+      params: {
+        email,
+      },
+      headers: { authtoken },
+    })
+    .then(({ data: { users } }) => {
+      return users[0];
+    });
 };

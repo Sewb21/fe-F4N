@@ -26,6 +26,7 @@ export default function UserAdder({ toggleOverlay, setLoading }) {
   const [image, setImage] = useState(null);
   const [skills, setSkills] = useState([]);
   const [charities, setCharities] = useState([]);
+  const [userSkills, setUserSkills] = useState([]);
 
   useEffect(() => {
     api
@@ -58,7 +59,7 @@ export default function UserAdder({ toggleOverlay, setLoading }) {
   const handleUserPost = () => {
     setLoading(true);
 
-    userSignUp(newUserInfo, image)
+    userSignUp(newUserInfo, userSkills, image)
       .then(() => {
         setLoading(false);
         toggleOverlay();
@@ -104,11 +105,6 @@ export default function UserAdder({ toggleOverlay, setLoading }) {
           style={styles.inputBox}
           onChangeText={text => handleTextChange(text, 'password')}
         />
-
-        <View style={styles.button}>
-          <ImagePickerComponent setImageObj={setImage}></ImagePickerComponent>
-        </View>
-
         <Text style={styles.inputHeading}>{'Location'}</Text>
         <TextInput
           style={styles.inputBox}
@@ -127,6 +123,7 @@ export default function UserAdder({ toggleOverlay, setLoading }) {
           containerStyle={styles.dropDownContainer}
           activeItemStyle={styles.dropDownPickerItem}
           onChangeItem={item => handleTextChange(item.label, 'charity_name')}
+          placeholder="Select a charity"
         />
         <Text style={styles.inputHeading}>{'Skills'}</Text>
         <DropDownPicker
@@ -136,7 +133,13 @@ export default function UserAdder({ toggleOverlay, setLoading }) {
           containerStyle={styles.dropDownContainer}
           activeItemStyle={styles.dropDownPickerItem}
           onChangeItem={item => handleTextChange(item.label, 'skill_name')}
+          placeholder="Select a skill"
+          multiple={true}
+          min={1}
+          max={10}
+          onChangeItem={item => setUserSkills(item)}
         />
+        <ImagePickerComponent setImageObj={setImage}></ImagePickerComponent>
         <TouchableOpacity onPress={() => handleUserPost(newUserInfo)}>
           <View style={styles.button}>
             <Text style={styles.buttonText}>Sign Up!</Text>

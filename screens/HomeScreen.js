@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Overlay } from 'react-native-elements';
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import HeaderComponent from '../components/HeaderComponent';
 import UserAdder from '../components/UserAdder';
 import Loader from '../components/Loader';
 import LogIn from '../components/LogIn';
+import UserContext from '../contexts/UserContext';
 
 const HomeScreen = ({ navigation }) => {
-  const [visible, setVisible] = useState(true);
+  const { loggedIn } = useContext(UserContext);
+
+  const [visible, setVisible] = useState(loggedIn);
   const [signUp, setSignUp] = useState(false);
   const [logIn, setLogIn] = useState(false);
   const [isLoading, setLoading] = useState(false);
