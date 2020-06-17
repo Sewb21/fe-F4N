@@ -1,25 +1,22 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import Loader from '../components/Loader';
-import axios from 'axios';
 import { elapsedTimeString } from '../utils/utils';
 import HeaderComponent from '../components/HeaderComponent';
-import CommentList from '../components/CommentList';
 import UserContext from '../contexts/UserContext';
 import * as api from '../api-requests/axios-request';
 import { Avatar } from 'react-native-elements';
 
 
-export default function SpecificJobScreen({ route }) {
+export default function SpecificJobScreen({ navigation, route }) {
   const user = useContext(UserContext);
   const [specificJob, setSpecificJob] = useState([]);
   const [isLoading, setLoading] = useState(true);
-
-  const jobID = route.params.job_id;
+  const job_id = route.params.job_id;
 
   useEffect(() => {
     api
-      .getSpecificJob(jobID, user.authtoken)
+      .getSpecificJob(job_id, user.authtoken)
       .then(({ job }) => setSpecificJob(job), setLoading(false));
   }, []);
 
@@ -32,7 +29,7 @@ export default function SpecificJobScreen({ route }) {
   return (
     <View style={{ flex: 1, backgroundColor: '#e4f5f0' }}>
       <HeaderComponent name="Details" />
-      <Text style={styles.headingMain}>{' "' + specificJob.title + '"'}</Text>
+      <Text style={styles.headingMain}>{':: "' + specificJob.title + '"'}</Text>
       <Text style={styles.fieldTitle}>{'Description'}</Text>
       <Text style={styles.fieldBody}>{specificJob.body}</Text>
       <View style={styles.rowContainer}>
@@ -57,13 +54,32 @@ export default function SpecificJobScreen({ route }) {
         <Text style={styles.rowC6}>{'Posted'}</Text>
         <Text style={styles.rowC7}>{elapsedTimeString(date)}</Text>
       </View>
-      <Text style={styles.fieldTitle}>{'Comments'}</Text>
-      <CommentList jobID={jobID} />
+      <TouchableOpacity
+        onPress={() => navigation.navigate('Comments', { job_id: job_id, title: specificJob.title })}
+      >
+        <View style={styles.button}>
+          <Text style={styles.buttonText}>View Comments</Text>
+        </View>
+      </TouchableOpacity>
     </View>
   );
 }
 
 const styles = {
+  button: {
+    backgroundColor: '#026670',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 7,
+    padding: 6,
+    paddingLeft: 6,
+    paddingRight: 6,
+    margin: 2,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 10,
+  },
   rowC8: {
     borderTopWidth: 2,
     borderTopColor: '#FCE181',
@@ -84,8 +100,7 @@ const styles = {
     paddingLeft: 10,
     width: '25%',
   },
-  
-  
+
   rowContainer: {
     flexDirection: 'row',
   },
@@ -177,24 +192,20 @@ const styles = {
   },
 
   headingMain: {
-    borderTopWidth: 2,
-    borderTopColor: '#FCE181',
     borderBottomWidth: 2,
     borderBottomColor: '#FCE181',
-    backgroundColor: '#FEF9C7',
     fontSize: 20,
     color: '#026670',
     paddingLeft: 10,
     fontWeight: 'bold',
+    paddingBottom: 5,
+    paddingTop: 5
   },
 
   fieldTitle: {
-    borderTopWidth: 2,
-    borderTopColor: '#FCE181',
     backgroundColor: '#FEF9C7',
     fontSize: 20,
     color: '#026670',
-    marginTop: 5,
     paddingLeft: 10,
   },
   fieldBody: {

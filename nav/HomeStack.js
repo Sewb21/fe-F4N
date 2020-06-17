@@ -4,6 +4,7 @@ import AddJobScreen from '../screens/AddJobScreen';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from '../screens/HomeScreen';
 import SpecificJobScreen from '../screens/SpecificJobScreen';
+import CommentsScreen from '../screens/CommentsScreen';
 
 const Stack = createStackNavigator();
 
@@ -14,6 +15,7 @@ const HomeStack = () => {
       <Stack.Screen name="JobList" component={JobListScreen} />
       <Stack.Screen name="AddJob" component={AddJobScreen} />
       <Stack.Screen name="SpecificJob" component={SpecificJobScreen} />
+      <Stack.Screen name="Comments" component={CommentsScreen} />
     </Stack.Navigator>
   );
 };

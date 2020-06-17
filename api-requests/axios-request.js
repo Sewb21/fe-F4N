@@ -19,7 +19,6 @@ export const postJob = (jobInfo, authtoken) => {
   return instance
     .post('/api/jobs', jobInfo, { headers: { authtoken } })
     .then(({ data }) => {
-      console.log(data);
     });
 };
 
@@ -48,10 +47,27 @@ export const getSpecificJob = (jobID, authtoken) => {
     });
 };
 
-export const getComments = (jobID, authtoken) => {
+export const getComments = (jobID, authtoken, sortBy, order, charity_name) => {
+  let params = {};
+  if (charity_name !== '') {
+    params = { sortBy, order, charity_name };
+  } else {
+    params = { sortBy, order };
+  }
   return instance
-    .get(`/api/jobs/${jobID}/comments`, { headers: { authtoken } })
+    .get(`/api/jobs/${jobID}/comments`, {
+      headers: { authtoken },
+      params,
+    })
     .then(({ data }) => {
       return data;
     });
 };
+
+export const postComment = (job_id, comment, authtoken) => {
+  return instance.post(
+    `/api/jobs/${job_id}/comments`,
+    comment,
+    { headers: { authtoken } }
+  );
+}

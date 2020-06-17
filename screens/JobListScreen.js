@@ -27,7 +27,6 @@ const JobListScreen = ({ navigation }) => {
   const [filterLocation, setFilterLocation] = useState('');
 
   useEffect(() => {
-    console.log(sortBy, order, filterLocation);
     api
       .getJobs(user.authtoken, sortBy, order)
       .then(({ jobs }) => {
@@ -75,8 +74,8 @@ const JobListScreen = ({ navigation }) => {
               onValueChange={setFilterLocation}
             >
               <Picker.Item label="Location: (All)" value="" />
-              {locations.map(loc => {
-                return <Picker.Item label={loc} value={loc} />;
+              {locations.map((loc, index) => {
+                return <Picker.Item key={index} label={loc} value={loc} />;
               })}
             </Picker>
           </View>
