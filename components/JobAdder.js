@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, TouchableOpacity, TextInput } from 'react-native';
-import DropDownPicker from 'react-native-dropdown-picker';
 import * as api from '../api-requests/axios-request';
 import UserContext from '../contexts/UserContext';
 import ImagePickerComponent from '../utils/imagePicker';
+import { Picker } from '@react-native-community/picker';
 
 export default function JobAdder() {
   const user = useContext(UserContext);
@@ -12,21 +12,17 @@ export default function JobAdder() {
     title: '',
     body: '',
     username: user.username,
-    skill_name: '',
     location: '',
   });
   const [skills, setSkills] = useState([]);
+  const [selectedSkill, setSelectedSkill] = useState("");
   const [image, setImage] = useState(null);
 
   useEffect(() => {
     api
       .getSkills(user.authtoken)
       .then(({ skills }) => {
-        setSkills(
-          skills.map(skill => {
-            return { label: skill.skill_name, value: skill.skill_name };
-          })
-        );
+        setSkills(skills.map(skill => skill.skill_name).sort());
       })
       .catch(err => {
         console.log(err);
@@ -35,7 +31,7 @@ export default function JobAdder() {
 
   const handleJobPost = () => {
     api
-      .postJob(jobInfo, user.authtoken)
+      .postJob({ selectedSkill, ...jobInfo }, user.authtoken)
       .then(({ job_id }) => {
         if (image) {
           jobImageUpload(image, job_id, user.authtoken);
@@ -54,33 +50,63 @@ export default function JobAdder() {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#e4f5f0' }}>
-      <Text style={styles.inputHeading}>{'Title'}</Text>
-      <TextInput
-        style={styles.inputBox}
-        onChangeText={text => handleTextChange(text, 'title')}
-      />
-      <Text style={styles.inputHeading}>{'Description'}</Text>
-      <TextInput
-        multiline={true}
-        numberOfLines={4}
-        style={styles.inputBox}
-        onChangeText={text => handleTextChange(text, 'body')}
-      />
-      <Text style={styles.inputHeading}>{'Skills'}</Text>
-      <DropDownPicker
-        items={skills}
-        style={styles.dropDownPicker}
-        dropDownStyle={styles.dropDownPickerDropDown}
-        containerStyle={styles.dropDownContainer}
-        activeItemStyle={styles.dropDownPickerItem}
-        onChangeItem={item => handleTextChange(item.label, 'skill_name')}
-      />
-      <Text style={styles.inputHeading}>{'Location'}</Text>
-      <TextInput
-        style={styles.inputBox}
-        onChangeText={text => handleTextChange(text, 'location')}
-      />
+    <View style={styles.container}>
+      <View style={styles.blockContainer}>
+        <View style={styles.headingContainer}>
+          <Text style={styles.headingText}>{'Title'}</Text>
+        </View>
+        <View style={styles.titleInput}>
+          <TextInput placeholder="Enter a title for you request..."
+          onChangeText={text => handleTextChange(text, 'title')} />
+        </View>
+      </View>
+      <View style={styles.blockContainer}>
+        <View style={styles.headingContainer}>
+          <Text style={styles.headingText}>{'Summary'}</Text>
+        </View>
+        <View style={styles.summaryInput}>
+          <TextInput
+          placeholder="Enter a summary of the work involved..."
+            multiline={true}
+            onChangetext={text => handleTextChange(text, 'body')}
+          />
+        </View>
+      </View>
+      <View style={styles.blockContainer}>
+        <View style={styles.headingContainer}>
+          <Text style={styles.headingText}>{'Skill Required'}</Text>
+        </View>
+
+        <Picker
+          style={styles.skillPicker}
+          selectedValue={selectedSkill}
+          onValueChange={setSelectedSkill}
+        >
+          <Picker.Item label="Select a skill" value="" />
+          {skills.map((skill, index) => {
+            const skillLabel = skill[0].toUpperCase() + skill.slice(1);
+            return <Picker.Item key={index} label={skillLabel} value={skill} />;
+          })}
+        </Picker>
+      </View>
+      <View style={styles.rowContainer}>
+        <View style={styles.locationHeadingContainer}>
+          <Text style={styles.headingText}>{'Location'}</Text>
+        </View>
+        <View style={styles.locationInput}>
+          <TextInput placeholder="e.g M50"
+            onChangeText={text => handleTextChange(text, 'location')}
+          />
+        </View>
+        <View style={styles.pledgeHeadingContainer}>
+          <Text style={styles.headingText}>{'Pledge'}</Text>
+        </View>
+        <View style={styles.pledgeInput}>
+          <TextInput placeholder="e.g £25"
+            onChangeText={text => handleTextChange(text, 'location')}
+          />
+        </View>
+      </View>
       <ImagePickerComponent setImageObj={setImage}></ImagePickerComponent>
       <TouchableOpacity onPress={() => handleJobPost(jobInfo)}>
         <View style={styles.button}>
@@ -92,6 +118,10 @@ export default function JobAdder() {
 }
 
 const styles = {
+  container: {
+    flex: 1,
+    backgroundColor: '#e4f5f0',
+  },
   button: {
     backgroundColor: '#026670',
     alignItems: 'center',
@@ -106,37 +136,68 @@ const styles = {
     color: 'white',
     fontSize: 26,
   },
-  inputBox: {
-    borderBottomWidth: 2,
-    borderBottomColor: '#FCE181',
-    padding: 4,
-    backgroundColor: '#fff',
-    fontSize: 14,
-    color: '#026670',
-    height: 40,
-  },
-  inputHeading: {
-    fontSize: 20,
-    marginTop: 10,
-    paddingLeft: 10,
-    color: '#026670',
-    backgroundColor: '#FEF9C7',
+  blockContainer: {
+    marginTop: 3,
     borderTopWidth: 2,
     borderTopColor: '#FCE181',
-  },
-  dropDownPicker: {
-    backgroundColor: '#fff',
     borderBottomWidth: 2,
     borderBottomColor: '#FCE181',
   },
-  dropDownPickerDropDown: {
-    backgroundColor: '#fff',
+  rowContainer: {
+    flexDirection: 'row',
+    marginTop: 3,
+    borderTopWidth: 2,
+    borderTopColor: '#FCE181',
+    borderBottomWidth: 2,
+    borderBottomColor: '#FCE181',
   },
-  dropDownPickerItem: {
-    fontSize: 14,
+  headingContainer: {
+    paddingLeft: 10,
+    backgroundColor: '#FEF9C7',
+  },
+  locationHeadingContainer: {
+    paddingLeft: 10,
+    backgroundColor: '#FEF9C7',
+    width: '30%',
+  },
+  pledgeHeadingContainer: {
+    paddingLeft: 10,
+    backgroundColor: '#FEF9C7',
+    width: '30%',
+  },
+  headingText: {
+    fontSize: 20,
     color: '#026670',
   },
-  dropDownContainer: {
-    height: 50,
+  titleInput: {
+    height: 30,
+    backgroundColor: '#FFFFFF',
+    padding: 4,
+  },
+  summaryInput: {
+    height: 80,
+    backgroundColor: '#FFFFFF',
+    padding: 4,
+  },
+  locationInput: {
+    height: 30,
+    backgroundColor: '#FFFFFF',
+    padding: 4,
+    width: '20%',
+  },
+  pledgeInput: {
+    height: 30,
+    backgroundColor: '#FFFFFF',
+    padding: 4,
+    width: '20%',
+  },
+
+  skillPicker: {
+    backgroundColor: '#ffffff',
+    height: 30,
+  },
+  skillPickerItem: {
+    height: 30,
+    color: 'red',
   },
 };

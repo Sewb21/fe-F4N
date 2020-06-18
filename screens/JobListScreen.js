@@ -17,7 +17,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import * as api from '../api-requests/axios-request';
 import UserContext from '../contexts/UserContext';
 
-const JobListScreen = ({ navigation }) => {
+const JobListScreen = ({ navigation, route }) => {
   const user = useContext(UserContext);
   const [jobList, setJobs] = useState([]);
   const [isLoading, setLoading] = useState(true);
@@ -25,16 +25,26 @@ const JobListScreen = ({ navigation }) => {
   const [order, setOrder] = useState('desc');
   const [locations, setLocations] = useState([]);
   const [filterLocation, setFilterLocation] = useState('');
+  let filterUsername = '';
+  if (route.params.filteruser) {
+    filterUsername = user.username;
+  }
 
   useEffect(() => {
     api
-      .getJobs(user.authtoken, sortBy, order)
+      .getJobs(user.authtoken, sortBy, order, filterUsername)
       .then(({ jobs }) => {
         setLocations(getUniqueLocations(jobs.map(job => job.location)));
       })
       .then(
         api
-          .getJobs(user.authtoken, sortBy, order, filterLocation)
+          .getJobs(
+            user.authtoken,
+            sortBy,
+            order,
+            filterLocation,
+            filterUsername
+          )
           .then(({ jobs }) => {
             setJobs(jobs);
             setLoading(false);
@@ -64,53 +74,47 @@ const JobListScreen = ({ navigation }) => {
     return <Loader isLoading={isLoading} />;
   }
   return (
-    <>
+    <View style={{ flex: 1, backgroundColor: '#e4f5f0' }}>
       <HeaderComponent name="Job List" />
-      <View style={styles.container}>
-        <View style={styles.rowContainer}>
-          <View style={styles.rowC1}>
-            <Picker
-              selectedValue={filterLocation}
-              onValueChange={setFilterLocation}
-            >
-              <Picker.Item label="Location: (All)" value="" />
-              {locations.map((loc, index) => {
-                return <Picker.Item key={index} label={loc} value={loc} />;
-              })}
-            </Picker>
-          </View>
-          <View style={styles.rowC2}>
-            <Picker selectedValue={order} onValueChange={setOrder}>
-              <Picker.Item label="Posted: (newest)" value="desc" />
-              <Picker.Item label="Posted: (oldest)" value="asc" />
-            </Picker>
-          </View>
+      <View style={styles.rowContainer}>
+        <View style={styles.rowC1}>
+          <Picker
+            selectedValue={filterLocation}
+            onValueChange={setFilterLocation}
+          >
+            <Picker.Item label="Location: (All)" value="" />
+            {locations.map((loc, index) => {
+              return <Picker.Item key={index} label={loc} value={loc} />;
+            })}
+          </Picker>
         </View>
-
-        <ScrollView>
-          {jobList.map(item => {
-            return (
-              <TouchableOpacity
-                key={item.job_id}
-                onPress={() =>
-                  navigation.navigate('SpecificJob', { job_id: item.job_id })
-                }
-              >
-                <JobListItem item={item} />
-              </TouchableOpacity>
-            );
-          })}
-        </ScrollView>
+        <View style={styles.rowC2}>
+          <Picker selectedValue={order} onValueChange={setOrder}>
+            <Picker.Item label="Posted: (newest)" value="desc" />
+            <Picker.Item label="Posted: (oldest)" value="asc" />
+          </Picker>
+        </View>
       </View>
-    </>
+
+      <ScrollView>
+        {jobList.map(item => {
+          return (
+            <TouchableOpacity
+              key={item.job_id}
+              onPress={() =>
+                navigation.navigate('SpecificJob', { job_id: item.job_id })
+              }
+            >
+              <JobListItem item={item} />
+            </TouchableOpacity>
+          );
+        })}
+      </ScrollView>
+    </View>
   );
 };
 
 const styles = {
-  container: {
-    flex: 1,
-    backgroundColor: '#FCE181',
-  },
   rowContainer: {
     backgroundColor: '#EDEAE5',
     flexDirection: 'row',

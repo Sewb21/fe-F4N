@@ -55,7 +55,8 @@ export default function JobListItem({ item }) {
 const styles = {
   listItem: {
     height: 150,
-    marginBottom: 1,
+    borderBottomWidth: 2,
+    borderBottomColor: '#9FEDD7',
   },
   title: {
     paddingBottom: 12,
