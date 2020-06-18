@@ -4,6 +4,8 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import * as api from '../api-requests/axios-request';
 import UserContext from '../contexts/UserContext';
 import ImagePickerComponent from '../utils/imagePicker';
+import jobImageUpload from '../api-requests/job-image-upload';
+import Loader from '../components/Loader';
 
 export default function JobAdder() {
   const user = useContext(UserContext);
@@ -17,6 +19,7 @@ export default function JobAdder() {
   });
   const [skills, setSkills] = useState([]);
   const [image, setImage] = useState(null);
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     api
@@ -34,12 +37,25 @@ export default function JobAdder() {
   }, []);
 
   const handleJobPost = () => {
+    setLoading(true);
     api
       .postJob(jobInfo, user.authtoken)
-      .then(({ job_id }) => {
+      .then(({ job: { job_id } }) => {
         if (image) {
-          jobImageUpload(image, job_id, user.authtoken);
+          return jobImageUpload(image, job_id, user.authtoken);
         }
+        return;
+      })
+      .then(() => {
+        setImage(null);
+        setLoading(false);
+        setJobInfo({
+          title: '',
+          body: '',
+          username: user.username,
+          skill_name: '',
+          location: '',
+        });
       })
       .catch(err => {
         console.log(err);
@@ -52,6 +68,10 @@ export default function JobAdder() {
     updatedJobInfo[key] = text;
     setJobInfo(updatedJobInfo);
   };
+
+  if (isLoading) {
+    return <Loader isLoading={isLoading} />;
+  }
 
   return (
     <View style={{ flex: 1, backgroundColor: '#e4f5f0' }}>
