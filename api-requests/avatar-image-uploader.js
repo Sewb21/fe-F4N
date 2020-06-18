@@ -1,7 +1,7 @@
 import * as api from './axios-request';
 import { storage } from '../firebase/firebase';
 
-export default function avatarUploader(image, username, auth) {
+export default function avatarUploader(image, username, uid) {
   return fetch(image)
     .then(res => {
       return res.blob();
@@ -9,7 +9,7 @@ export default function avatarUploader(image, username, auth) {
     .then(blob => {
       storage
         .ref('users')
-        .child(auth.user.uid + '/profile.jpg')
+        .child(uid + '/profile.jpg')
         .put(blob)
         .on(
           'state_changed',
@@ -20,7 +20,7 @@ export default function avatarUploader(image, username, auth) {
           () => {
             storage
               .ref('users')
-              .child(auth.user.uid + '/profile.jpg')
+              .child(uid + '/profile.jpg')
               .getDownloadURL()
               .then(avatar_url => {
                 api.patchUser(avatar_url, username).catch(err => {

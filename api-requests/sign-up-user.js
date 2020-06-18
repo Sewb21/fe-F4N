@@ -24,7 +24,7 @@ export const userSignUp = (newUserInfo, userSkills, image) => {
     })
     .then(auth => {
       if (image) {
-        return avatarUploader(image, username, auth);
+        return avatarUploader(image, username, auth.user.uid);
       }
     })
     .catch(err => {
