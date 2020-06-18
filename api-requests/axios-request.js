@@ -49,12 +49,14 @@ export const getCharities = () => {
 };
 
 export const postUser = (userInfo, avatarURL) => {
+  console.log('post');
   return instance.post('/api/users', userInfo).then(({ data }) => {
     return data;
   });
 };
 
 export const getUser = (email, authtoken) => {
+  console.log('get');
   return instance
     .get('/api/users', {
       params: {
@@ -65,4 +67,10 @@ export const getUser = (email, authtoken) => {
     .then(({ data: { users } }) => {
       return users[0];
     });
+};
+
+export const patchUser = (avatar_url, username) => {
+  // return instance.patch('/api/users', avatar_url).then(({ data }) => {
+  //   return data;
+  // });
 };

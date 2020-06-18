@@ -1,64 +1,9 @@
-import React, { useState, useContext } from 'react';
-import { Overlay } from 'react-native-elements';
+import React from 'react';
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import HeaderComponent from '../components/HeaderComponent';
-import UserAdder from '../components/UserAdder';
 import Loader from '../components/Loader';
-import LogIn from '../components/LogIn';
-import UserContext from '../contexts/UserContext';
 
 const HomeScreen = ({ navigation }) => {
-  const { loggedIn } = useContext(UserContext);
-
-  const [visible, setVisible] = useState(loggedIn);
-  const [signUp, setSignUp] = useState(false);
-  const [logIn, setLogIn] = useState(false);
-  const [isLoading, setLoading] = useState(false);
-
-  const toggleOverlay = () => {
-    setVisible(!visible);
-  };
-
-  const toggleSignUp = () => {
-    setSignUp(!signUp);
-  };
-  const toggleLogIn = () => {
-    setLogIn(!logIn);
-  };
-
-  if (isLoading) {
-    return <Loader isLoading={isLoading} />;
-  }
-  if (visible && signUp) {
-    return <UserAdder toggleOverlay={toggleOverlay} setLoading={setLoading} />;
-  }
-
-  if (visible && logIn) {
-    return <LogIn toggleOverlay={toggleOverlay} />;
-  }
-
-  if (visible) {
-    return (
-      <View>
-        <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
-          <Text>Have you got an account?</Text>
-          <TouchableOpacity
-            style={styles.buttonContainer}
-            onPress={toggleSignUp}
-          >
-            <Text style={styles.buttonText}>Sign up</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.buttonContainer}
-            onPress={toggleLogIn}
-          >
-            <Text style={styles.buttonText}>Log in</Text>
-          </TouchableOpacity>
-        </Overlay>
-      </View>
-    );
-  }
-
   return (
     <>
       <HeaderComponent name="Home" />

@@ -10,8 +10,9 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import * as api from '../api-requests/axios-request';
 import ImagePickerComponent from '../utils/imagePicker';
 import { userSignUp } from '../api-requests/sign-up-user';
+import Loader from './Loader';
 
-export default function UserAdder({ toggleOverlay, setLoading }) {
+export default function UserAdder() {
   const [newUserInfo, setNewUserInfo] = useState({
     email: '',
     password: '',
@@ -27,6 +28,7 @@ export default function UserAdder({ toggleOverlay, setLoading }) {
   const [skills, setSkills] = useState([]);
   const [charities, setCharities] = useState([]);
   const [userSkills, setUserSkills] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     api
@@ -58,12 +60,8 @@ export default function UserAdder({ toggleOverlay, setLoading }) {
 
   const handleUserPost = () => {
     setLoading(true);
-
     userSignUp(newUserInfo, userSkills, image)
-      .then(() => {
-        setLoading(false);
-        toggleOverlay();
-      })
+      .then(() => setLoading(false))
       .catch(function (error) {
         console.log(error);
       });
@@ -75,6 +73,8 @@ export default function UserAdder({ toggleOverlay, setLoading }) {
     updatedUserInfo[key] = text;
     setNewUserInfo(updatedUserInfo);
   };
+
+  if (loading) return <Loader />;
 
   return (
     <View style={{ flex: 1, backgroundColor: '#e4f5f0' }}>
@@ -105,16 +105,6 @@ export default function UserAdder({ toggleOverlay, setLoading }) {
           style={styles.inputBox}
           onChangeText={text => handleTextChange(text, 'password')}
         />
-        <Text style={styles.inputHeading}>{'Location'}</Text>
-        <TextInput
-          style={styles.inputBox}
-          onChangeText={text => handleTextChange(text, 'location')}
-        />
-        <Text style={styles.inputHeading}>{'Bio'}</Text>
-        <TextInput
-          style={styles.inputBox}
-          onChangeText={text => handleTextChange(text, 'bio')}
-        />
         <Text style={styles.inputHeading}>{'Charity Name'}</Text>
         <DropDownPicker
           items={charities}
@@ -125,6 +115,16 @@ export default function UserAdder({ toggleOverlay, setLoading }) {
           onChangeItem={item => handleTextChange(item.label, 'charity_name')}
           placeholder="Select a charity"
         />
+        <Text style={styles.inputHeading}>{'Location'}</Text>
+        <TextInput
+          style={styles.inputBox}
+          onChangeText={text => handleTextChange(text, 'location')}
+        />
+        <Text style={styles.inputHeading}>{'Bio'}</Text>
+        <TextInput
+          style={styles.inputBox}
+          onChangeText={text => handleTextChange(text, 'bio')}
+        />
         <Text style={styles.inputHeading}>{'Skills'}</Text>
         <DropDownPicker
           items={skills}
@@ -132,7 +132,7 @@ export default function UserAdder({ toggleOverlay, setLoading }) {
           dropDownStyle={styles.dropDownPickerDropDown}
           containerStyle={styles.dropDownContainer}
           activeItemStyle={styles.dropDownPickerItem}
-          onChangeItem={item => handleTextChange(item.label, 'skill_name')}
+          // onChangeItem={item => handleTextChange(item.label, 'skill_name')}
           placeholder="Select a skill"
           multiple={true}
           min={1}

@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import Firebase from '../firebase/firebase';
 
-export default function LogIn({ toggleOverlay }) {
+export default function LogIn() {
   const [userInfo, setUserInfo] = useState({ email: '', password: '' });
 
   const handleTextChange = (text, key) => {
@@ -22,9 +22,7 @@ export default function LogIn({ toggleOverlay }) {
     const { email, password } = userInfo;
     Firebase.auth()
       .signInWithEmailAndPassword(email, password)
-      .then(() => {
-        toggleOverlay();
-      })
+      .then(() => {})
       .catch(error => console.log(error));
   };
 

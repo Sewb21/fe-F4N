@@ -1,14 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { View, Text } from 'react-native';
 import Loader from '../components/Loader';
-import axios from 'axios';
 import { elapsedTimeString } from '../utils/utils';
 import HeaderComponent from '../components/HeaderComponent';
 import CommentList from '../components/CommentList';
 import UserContext from '../contexts/UserContext';
 import * as api from '../api-requests/axios-request';
 import { Avatar } from 'react-native-elements';
-
 
 export default function SpecificJobScreen({ route }) {
   const user = useContext(UserContext);
@@ -22,8 +20,6 @@ export default function SpecificJobScreen({ route }) {
       .getSpecificJob(jobID, user.authtoken)
       .then(({ job }) => setSpecificJob(job), setLoading(false));
   }, []);
-
-  
 
   if (isLoading) {
     return <Loader isLoading={isLoading} />;
@@ -84,8 +80,7 @@ const styles = {
     paddingLeft: 10,
     width: '25%',
   },
-  
-  
+
   rowContainer: {
     flexDirection: 'row',
   },
@@ -206,5 +201,3 @@ const styles = {
     borderBottomColor: '#FCE181',
   },
 };
-
-
