@@ -1,67 +1,9 @@
-import React, { Component, useState, useEffect } from 'react';
-import { Overlay, Button } from 'react-native-elements';
-import {
-  Text,
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  TextInput,
-} from 'react-native';
+import React from 'react';
+import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import HeaderComponent from '../components/HeaderComponent';
-import Firebase from '../firebase/firebase';
+import Loader from '../components/Loader';
 
 const HomeScreen = ({ navigation }) => {
-  const [visible, setVisible] = useState(true);
-  const [userInfo, setUserInfo] = useState({ email: '', password: '' });
-
-  const toggleOverlay = () => {
-    setVisible(!visible);
-  };
-
-  const handleTextChange = (text, key) => {
-    let updatedUserInfo = {};
-    Object.assign(updatedUserInfo, userInfo);
-    updatedUserInfo[key] = text;
-    setUserInfo(updatedUserInfo);
-  };
-
-  const handleLogIn = () => {
-    const { email, password } = userInfo;
-    Firebase.auth()
-      .signInWithEmailAndPassword(email, password)
-      .then(() => {
-        toggleOverlay();
-      })
-      .catch(error => console.log(error));
-  };
-
-  if (visible) {
-    return (
-      <View>
-        <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
-          <Text style={styles.inputHeading}>{'Email'}</Text>
-          <TextInput
-            style={styles.inputBox}
-            onChangeText={text =>
-              handleTextChange('afawdry0@ox.ac.uk', 'email')
-            }
-          />
-          <Text style={styles.inputHeading}>{'Password'}</Text>
-          <TextInput
-            style={styles.inputBox}
-            onChangeText={text => handleTextChange('test123', 'password')}
-          />
-          <TouchableOpacity
-            style={styles.buttonContainer}
-            onPress={handleLogIn}
-          >
-            <Text style={styles.buttonText}>Log in</Text>
-          </TouchableOpacity>
-        </Overlay>
-      </View>
-    );
-  }
-
   return (
     <>
       <HeaderComponent name="Home" />

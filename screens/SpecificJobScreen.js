@@ -8,6 +8,7 @@ import * as api from '../api-requests/axios-request';
 import { Avatar } from 'react-native-elements';
 
 export default function SpecificJobScreen({ navigation, route }) {
+
   const user = useContext(UserContext);
   const [specificJob, setSpecificJob] = useState([]);
   const [isLoading, setLoading] = useState(true);
@@ -122,6 +123,10 @@ const styles = {
     width: '50%',
     padding: 2,
   },
+
+
+  
+
   commentsButton_view: {
     backgroundColor: '#026670',
     borderRadius: 7,
@@ -151,6 +156,7 @@ const styles = {
     fontWeight: 'bold',
   },
   rowContainerR1_view: {
+
     flexDirection: 'row',
     height: 45,
     marginTop: 3,
