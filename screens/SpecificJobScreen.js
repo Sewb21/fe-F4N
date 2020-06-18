@@ -1,24 +1,35 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
 import Loader from '../components/Loader';
 import { elapsedTimeString } from '../utils/utils';
 import HeaderComponent from '../components/HeaderComponent';
 import UserContext from '../contexts/UserContext';
 import * as api from '../api-requests/axios-request';
 import { Avatar } from 'react-native-elements';
+import jobImageUpload from '../api-requests/job-image-upload';
+import ImagePickerComponent from '../utils/imagePicker';
 
 export default function SpecificJobScreen({ navigation, route }) {
-
   const user = useContext(UserContext);
   const [specificJob, setSpecificJob] = useState([]);
+  const [image, setImage] = useState(null);
   const [isLoading, setLoading] = useState(true);
   const job_id = route.params.job_id;
 
   useEffect(() => {
-    api
-      .getSpecificJob(job_id, user.authtoken)
-      .then(({ job }) => setSpecificJob(job), setLoading(false));
-  }, []);
+    api.getSpecificJob(job_id, user.authtoken).then(({ job }) => {
+      setSpecificJob(job);
+      setLoading(false);
+    });
+  }, [image]);
+
+  const handleJobImageUpdate = () => {
+    setLoading(true);
+    jobImageUpload(image, job_id, user.authtoken).then(test => {
+      setImage(null);
+      setLoading(false);
+    });
+  };
 
   if (isLoading) {
     return <Loader isLoading={isLoading} />;
@@ -77,25 +88,7 @@ export default function SpecificJobScreen({ navigation, route }) {
         </View>
       </View>
       <View style={styles.rowContainerR3_view}>
-         <View style={styles.rowC8_view}>
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate('Comments', {
-                  job_id: job_id,
-                  title: specificJob.title,
-                })
-              }
-            >
-              <View style={styles.commentsButton_view}>
-                <Text style={styles.commentsButton_text}>
-                  {'View Comments'}
-                </Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-        
-        <View style={styles.rowC9_view}>
-          {specificJob.username !== user.username && (
+        <View style={styles.rowC8_view}>
           <TouchableOpacity
             onPress={() =>
               navigation.navigate('Comments', {
@@ -104,17 +97,70 @@ export default function SpecificJobScreen({ navigation, route }) {
               })
             }
           >
-            <View style={styles.helperButton_view}>
-              <Text style={styles.helperButton_text}>{'Offer Help'}</Text>
+            <View style={styles.commentsButton_view}>
+              <Text style={styles.commentsButton_text}>{'View Comments'}</Text>
             </View>
-          </TouchableOpacity>)}
+          </TouchableOpacity>
+        </View>
+        <View style={styles.rowC9_view}>
+          {specificJob.username !== user.username && (
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate('Comments', {
+                  job_id: job_id,
+                  title: specificJob.title,
+                })
+              }
+            >
+              <View style={styles.helperButton_view}>
+                <Text style={styles.helperButton_text}>{'Offer Help'}</Text>
+              </View>
+            </TouchableOpacity>
+          )}
         </View>
       </View>
+      {specificJob.job_image && (
+        <View>
+          <Image
+            style={{
+              height: 100,
+              width: 100,
+              paddingLeft: 100,
+              alignItems: 'center',
+            }}
+            source={{
+              uri: specificJob.job_image,
+            }}
+          />
+        </View>
+      )}
+      <ImagePickerComponent setImageObj={setImage}></ImagePickerComponent>
+      {image && (
+        <TouchableOpacity onPress={handleJobImageUpdate}>
+          <View style={styles.button}>
+            <Text style={styles.buttonText}>Upload Image!</Text>
+          </View>
+        </TouchableOpacity>
+      )}
     </View>
   );
 }
 
 const styles = {
+  button: {
+    backgroundColor: '#026670',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 7,
+    padding: 6,
+    paddingLeft: 20,
+    paddingRight: 20,
+    margin: 5,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 26,
+  },
   rowC8_view: {
     width: '50%',
     padding: 2,
@@ -123,10 +169,6 @@ const styles = {
     width: '50%',
     padding: 2,
   },
-
-
-  
-
   commentsButton_view: {
     backgroundColor: '#026670',
     borderRadius: 7,
@@ -156,7 +198,6 @@ const styles = {
     fontWeight: 'bold',
   },
   rowContainerR1_view: {
-
     flexDirection: 'row',
     height: 45,
     marginTop: 3,
