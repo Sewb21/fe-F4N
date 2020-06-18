@@ -1,7 +1,7 @@
 import * as api from './axios-request';
 import { storage } from '../firebase/firebase';
 
-export default function avatarUploader(image, auth, username) {
+export default function avatarUploader(image, username, auth) {
   return fetch(image)
     .then(res => {
       return res.blob();

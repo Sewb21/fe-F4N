@@ -64,7 +64,7 @@ export const getCharities = () => {
   });
 };
 
-export const postUser = (userInfo, avatarURL) => {
+export const postUser = userInfo => {
   return instance.post('/api/users', userInfo).then(({ data }) => {
     return data;
   });
@@ -85,7 +85,7 @@ export const getUser = (email, authtoken) => {
 
 export const patchUser = (avatar_url, username) => {
   return instance
-    .patch(`/api/users/${username}`, avatar_url)
+    .patch(`/api/users/${username}`, { avatar_url })
     .then(({ data }) => {
       return data;
     });

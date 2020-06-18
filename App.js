@@ -21,7 +21,6 @@ const App = () => {
           api
             .getUser(userAuth.email, idToken)
             .then(({ username }) => {
-              console.log(idToken);
               setUserInfo({
                 authtoken: idToken,
                 username,
