@@ -12,6 +12,7 @@ const App = () => {
   const [userInfo, setUserInfo] = useState({
     authtoken: null,
     username: null,
+    email: null,
   });
 
   useEffect(() => {
@@ -23,7 +24,9 @@ const App = () => {
             .then(({ username }) => {
               setUserInfo({
                 authtoken: idToken,
+                uid: userAuth.uid,
                 username,
+                email: userAuth.email,
               });
             })
             .catch(err => {
@@ -36,6 +39,7 @@ const App = () => {
         setUserInfo({
           authtoken: null,
           username: null,
+          email: null,
         });
       }
     });
