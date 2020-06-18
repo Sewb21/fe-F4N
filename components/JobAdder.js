@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, TextInput } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import * as api from '../api-requests/axios-request';
 import UserContext from '../contexts/UserContext';
+import ImagePickerComponent from '../utils/imagePicker';
 
 export default function JobAdder() {
   const user = useContext(UserContext);
@@ -15,6 +16,7 @@ export default function JobAdder() {
     location: '',
   });
   const [skills, setSkills] = useState([]);
+  const [image, setImage] = useState(null);
 
   useEffect(() => {
     api
@@ -32,9 +34,16 @@ export default function JobAdder() {
   }, []);
 
   const handleJobPost = () => {
-    api.postJob(jobInfo, user.authtoken).catch(err => {
-      console.log(err);
-    });
+    api
+      .postJob(jobInfo, user.authtoken)
+      .then(({ job_id }) => {
+        if (image) {
+          jobImageUpload(image, job_id, user.authtoken);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   const handleTextChange = (text, key) => {
@@ -72,6 +81,7 @@ export default function JobAdder() {
         style={styles.inputBox}
         onChangeText={text => handleTextChange(text, 'location')}
       />
+      <ImagePickerComponent setImageObj={setImage}></ImagePickerComponent>
       <TouchableOpacity onPress={() => handleJobPost(jobInfo)}>
         <View style={styles.button}>
           <Text style={styles.buttonText}>Post Job</Text>

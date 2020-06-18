@@ -49,14 +49,12 @@ export const getCharities = () => {
 };
 
 export const postUser = (userInfo, avatarURL) => {
-  console.log('post');
   return instance.post('/api/users', userInfo).then(({ data }) => {
     return data;
   });
 };
 
 export const getUser = (email, authtoken) => {
-  console.log('get');
   return instance
     .get('/api/users', {
       params: {
@@ -71,6 +69,12 @@ export const getUser = (email, authtoken) => {
 
 export const patchUser = (avatar_url, username) => {
   // return instance.patch('/api/users', avatar_url).then(({ data }) => {
+  //   return data;
+  // });
+};
+
+export const patchJob = (image_url, authtoken) => {
+  // return instance.patch(`/api/jobs/${job_id}`, image_url, { headers: { authtoken } }).then(({ data }) => {
   //   return data;
   // });
 };
