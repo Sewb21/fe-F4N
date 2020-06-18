@@ -7,7 +7,6 @@ import UserContext from '../contexts/UserContext';
 import * as api from '../api-requests/axios-request';
 import { Avatar } from 'react-native-elements';
 
-
 export default function SpecificJobScreen({ navigation, route }) {
   const user = useContext(UserContext);
   const [specificJob, setSpecificJob] = useState([]);
@@ -20,8 +19,6 @@ export default function SpecificJobScreen({ navigation, route }) {
       .then(({ job }) => setSpecificJob(job), setLoading(false));
   }, []);
 
-  
-
   if (isLoading) {
     return <Loader isLoading={isLoading} />;
   }
@@ -29,15 +26,31 @@ export default function SpecificJobScreen({ navigation, route }) {
   return (
     <View style={{ flex: 1, backgroundColor: '#e4f5f0' }}>
       <HeaderComponent name="Details" />
-      <Text style={styles.headingMain}>{':: "' + specificJob.title + '"'}</Text>
-      <Text style={styles.fieldTitle}>{'Description'}</Text>
-      <Text style={styles.fieldBody}>{specificJob.body}</Text>
-      <View style={styles.rowContainer}>
-        <Text style={styles.rowC1}>{'Location'}</Text>
-        <Text style={styles.rowC2}>{specificJob.location}</Text>
-        <Text style={styles.rowC3}>{'User'}</Text>
-        <Text style={styles.rowC4}>{specificJob.username}</Text>
-        <View style={styles.rowC5}>
+      <View style={styles.headingMain_view}>
+        <Text style={styles.headingMain_text}>
+          {':: "' + specificJob.title + '"'}
+        </Text>
+      </View>
+      <View style={styles.fieldTitle_view}>
+        <Text style={styles.fieldTitle_text}>{'Description'}</Text>
+      </View>
+      <View style={styles.fieldBody_view}>
+        <Text style={styles.fieldBody_text}>{specificJob.body}</Text>
+      </View>
+      <View style={styles.rowContainerR1_view}>
+        <View style={styles.rowC1_view}>
+          <Text style={styles.rowC1_text}>{'Location'}</Text>
+        </View>
+        <View style={styles.rowC2_view}>
+          <Text style={styles.rowC2_text}>{specificJob.location}</Text>
+        </View>
+        <View style={styles.rowC3_view}>
+          <Text style={styles.rowC3_text}>{'User'}</Text>
+        </View>
+        <View style={styles.rowC4_view}>
+          <Text style={styles.rowC4_text}>{specificJob.username}</Text>
+        </View>
+        <View style={styles.rowC5_view}>
           <Avatar
             size="small"
             rounded
@@ -48,174 +61,249 @@ export default function SpecificJobScreen({ navigation, route }) {
           />
         </View>
       </View>
-      <View style={styles.rowContainer}>
-        <Text style={styles.rowC1}>{'Pledge'}</Text>
-        <Text style={styles.rowC2}>{'£25'}</Text>
-        <Text style={styles.rowC6}>{'Posted'}</Text>
-        <Text style={styles.rowC7}>{elapsedTimeString(date)}</Text>
-      </View>
-      <TouchableOpacity
-        onPress={() => navigation.navigate('Comments', { job_id: job_id, title: specificJob.title })}
-      >
-        <View style={styles.button}>
-          <Text style={styles.buttonText}>View Comments</Text>
+      <View style={styles.rowContainerR2_view}>
+        <View style={styles.rowC1_view}>
+          <Text style={styles.rowC1_text}>{'Pledge'}</Text>
         </View>
-      </TouchableOpacity>
+        <View style={styles.rowC2_view}>
+          <Text style={styles.rowC2_text}>{'£25'}</Text>
+        </View>
+        <View style={styles.rowC6_view}>
+          <Text style={styles.rowC6_text}>{'Posted'}</Text>
+        </View>
+        <View style={styles.rowC7_view}>
+          <Text style={styles.rowC7_text}>{elapsedTimeString(date)}</Text>
+        </View>
+      </View>
+      <View style={styles.rowContainerR3_view}>
+         <View style={styles.rowC8_view}>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate('Comments', {
+                  job_id: job_id,
+                  title: specificJob.title,
+                })
+              }
+            >
+              <View style={styles.commentsButton_view}>
+                <Text style={styles.commentsButton_text}>
+                  {'View Comments'}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        
+        <View style={styles.rowC9_view}>
+          {specificJob.username !== user.username && (
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('Comments', {
+                job_id: job_id,
+                title: specificJob.title,
+              })
+            }
+          >
+            <View style={styles.helperButton_view}>
+              <Text style={styles.helperButton_text}>{'Offer Help'}</Text>
+            </View>
+          </TouchableOpacity>)}
+        </View>
+      </View>
     </View>
   );
 }
 
 const styles = {
-  button: {
+  rowC8_view: {
+    width: '50%',
+    padding: 2,
+  },
+  rowC9_view: {
+    width: '50%',
+    padding: 2,
+  },
+  commentsButton_view: {
     backgroundColor: '#026670',
-    alignItems: 'center',
-    justifyContent: 'center',
     borderRadius: 7,
     padding: 6,
     paddingLeft: 6,
     paddingRight: 6,
-    margin: 2,
+    width: '100%',
+    alignItems: 'center',
   },
-  buttonText: {
+  commentsButton_text: {
     color: 'white',
-    fontSize: 10,
+    fontSize: 14,
+    fontWeight: 'bold',
   },
-  rowC8: {
-    borderTopWidth: 2,
-    borderTopColor: '#FCE181',
-    backgroundColor: '#FEF9C7',
-    fontSize: 20,
-    color: '#026670',
-    marginTop: 5,
-    paddingLeft: 10,
-    width: '75%',
+  helperButton_view: {
+    backgroundColor: '#D10000',
+    borderRadius: 7,
+    padding: 6,
+    paddingLeft: 6,
+    paddingRight: 6,
+    width: '100%',
+    alignItems: 'center',
   },
-  rowC9: {
-    borderTopWidth: 2,
-    borderTopColor: '#FCE181',
-    backgroundColor: '#FEF9C7',
-    fontSize: 20,
-    color: '#026670',
+  helperButton_text: {
+    color: 'white',
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
+  rowContainerR1_view: {
+    flexDirection: 'row',
+    height: 45,
+    marginTop: 3,
+  },
+  rowContainerR2_view: {
+    flexDirection: 'row',
+    height: 29,
+    marginTop: 3,
+  },
+  rowContainerR3_view: {
+    flexDirection: 'row',
+    height: 29,
     marginTop: 5,
-    paddingLeft: 10,
-    width: '25%',
   },
 
-  rowContainer: {
-    flexDirection: 'row',
-  },
-  rowC1: {
+  rowC1_view: {
     borderTopWidth: 2,
     borderTopColor: '#FCE181',
     borderBottomWidth: 2,
     borderBottomColor: '#FCE181',
     backgroundColor: '#FEF9C7',
+    paddingLeft: 10,
+    width: '27%',
+    height: '100%',
+    justifyContent: 'center',
+  },
+  rowC1_text: {
     fontSize: 20,
     color: '#026670',
-    marginTop: 5,
-    paddingLeft: 10,
-    width: '25%',
   },
-  rowC2: {
-    padding: 4,
-    fontSize: 14,
-    color: '#026670',
+  rowC2_view: {
+    paddingLeft: 5,
     backgroundColor: '#fff',
     borderTopWidth: 2,
     borderTopColor: '#FCE181',
     borderBottomWidth: 2,
     borderBottomColor: '#FCE181',
-    width: '12.5%',
-    marginTop: 5,
-    paddingLeft: 10,
+    width: '10.5%',
+    height: '100%',
+    justifyContent: 'center',
   },
-  rowC3: {
+  rowC2_text: {
+    fontSize: 14,
+    color: '#026670',
+  },
+  rowC3_view: {
     borderTopWidth: 2,
     borderTopColor: '#FCE181',
     borderBottomWidth: 2,
     borderBottomColor: '#FCE181',
     backgroundColor: '#FEF9C7',
-    fontSize: 20,
-    color: '#026670',
-    marginTop: 5,
     paddingLeft: 10,
     width: '17.5%',
+    height: '100%',
+    justifyContent: 'center',
   },
-  rowC4: {
-    padding: 4,
-    fontSize: 14,
+  rowC3_text: {
+    fontSize: 20,
     color: '#026670',
+  },
+  rowC4_view: {
+    padding: 4,
     backgroundColor: '#fff',
     borderTopWidth: 2,
     borderTopColor: '#FCE181',
     borderBottomWidth: 2,
     borderBottomColor: '#FCE181',
     width: '32.5%',
-    marginTop: 5,
+    height: '100%',
+    justifyContent: 'center',
     paddingLeft: 10,
   },
-  rowC5: {
+  rowC4_text: {
+    fontSize: 14,
+    color: '#026670',
+  },
+  rowC5_view: {
     padding: 4,
-
     backgroundColor: '#fff',
     borderTopWidth: 2,
     borderTopColor: '#FCE181',
     borderBottomWidth: 2,
     borderBottomColor: '#FCE181',
     width: '12.5%',
-    marginTop: 5,
+    height: '100%',
+    justifyContent: 'center',
   },
-  rowC6: {
+  rowC6_view: {
     borderTopWidth: 2,
     borderTopColor: '#FCE181',
     borderBottomWidth: 2,
     borderBottomColor: '#FCE181',
     backgroundColor: '#FEF9C7',
+    paddingLeft: 10,
+    paddingBottom: 2,
+    width: '22.5%',
+    height: '100%',
+    justifyContent: 'center',
+  },
+  rowC6_text: {
     fontSize: 20,
     color: '#026670',
-    marginTop: 5,
-    paddingLeft: 10,
-    width: '22.5%',
   },
-  rowC7: {
-    padding: 4,
-    fontSize: 14,
-    color: '#026670',
+  rowC7_view: {
+    paddingBottom: 2,
     backgroundColor: '#fff',
     borderTopWidth: 2,
     borderTopColor: '#FCE181',
     borderBottomWidth: 2,
     borderBottomColor: '#FCE181',
     width: '40%',
-    marginTop: 5,
+    height: '100%',
+    justifyContent: 'center',
     paddingLeft: 10,
   },
-
-  headingMain: {
-    borderBottomWidth: 2,
-    borderBottomColor: '#FCE181',
-    fontSize: 20,
-    color: '#026670',
-    paddingLeft: 10,
-    fontWeight: 'bold',
-    paddingBottom: 5,
-    paddingTop: 5
-  },
-
-  fieldTitle: {
-    backgroundColor: '#FEF9C7',
-    fontSize: 20,
-    color: '#026670',
-    paddingLeft: 10,
-  },
-  fieldBody: {
-    padding: 4,
+  rowC7_text: {
     fontSize: 14,
     color: '#026670',
+  },
+
+  headingMain_view: {
+    borderBottomWidth: 2,
+    borderBottomColor: '#FCE181',
+    paddingLeft: 10,
+    paddingBottom: 5,
+    paddingTop: 5,
+    height: 40,
+  },
+  headingMain_text: {
+    fontSize: 20,
+    color: '#026670',
+    fontWeight: 'bold',
+  },
+  fieldTitle_view: {
+    backgroundColor: '#FEF9C7',
+    paddingLeft: 10,
+    height: 25,
+    justifyContent: 'center',
+    paddingBottom: 2,
+  },
+  fieldTitle_text: {
+    fontSize: 20,
+    color: '#026670',
+  },
+  fieldBody_view: {
+    padding: 4,
     backgroundColor: '#fff',
     borderBottomWidth: 2,
     borderBottomColor: '#FCE181',
+    height: 60,
+  },
+  fieldBody_text: {
+    fontSize: 14,
+    color: '#026670',
   },
 };
-
-
