@@ -10,12 +10,12 @@ const HomeScreen = ({ navigation }) => {
       <View style={styles.container}>
         <TouchableOpacity onPress={() => navigation.navigate('JobList')}>
           <View style={styles.button}>
-            <Text style={styles.buttonText}>Go To Job List</Text>
+            <Text style={styles.buttonText}>{'View Help Wanted'}</Text>
           </View>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('AddJob')}>
           <View style={styles.button}>
-            <Text style={styles.buttonText}>Go to Add Job</Text>
+            <Text style={styles.buttonText}>{'Post New Help Request'}</Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -54,10 +54,7 @@ const styles = StyleSheet.create({
     paddingRight: 20,
     margin: 5,
   },
-  buttonText: {
-    fontSize: 28,
-    color: '#ffffff',
-  },
+
   inputBox: {
     borderBottomWidth: 2,
     borderBottomColor: '#FCE181',
