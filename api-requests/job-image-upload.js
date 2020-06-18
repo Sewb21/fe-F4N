@@ -7,27 +7,15 @@ export default function jobImageUpload(image, job_id, authtoken) {
       return res.blob();
     })
     .then(blob => {
-      storage
+      return storage
         .ref('jobs')
         .child(job_id + '/job-image.jpg')
-        .put(blob)
-        .on(
-          'state_changed',
-          null,
-          error => {
-            console.log(error);
-          },
-          () => {
-            storage
-              .ref('jobs')
-              .child(job_id + '/job-image.jpg')
-              .getDownloadURL()
-              .then(image_url => {
-                api.patchJob(job_id, image_url, authtoken).catch(err => {
-                  console.log(err);
-                });
-              });
-          }
-        );
+        .put(blob);
+    })
+    .then(snapshot => {
+      return snapshot.ref.getDownloadURL();
+    })
+    .then(image_url => {
+      return api.patchJob(job_id, image_url, authtoken);
     });
 }
