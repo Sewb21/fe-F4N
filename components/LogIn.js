@@ -1,12 +1,7 @@
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  TextInput,
-  StyleSheet,
-} from 'react-native';
+import { View, Text, TouchableOpacity, TextInput } from 'react-native';
 import Firebase from '../firebase/firebase';
+import { styles } from '../styling/LogInStyling';
 
 export default function LogIn() {
   const [userInfo, setUserInfo] = useState({ email: '', password: '' });
@@ -45,58 +40,3 @@ export default function LogIn() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#EDEAE5',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  button: {
-    backgroundColor: '#026670',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 7,
-    padding: 6,
-    paddingLeft: 20,
-    paddingRight: 20,
-    margin: 5,
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 26,
-  },
-  buttonContainer: {
-    backgroundColor: '#026670',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 7,
-    padding: 6,
-    paddingLeft: 20,
-    paddingRight: 20,
-    margin: 5,
-  },
-  buttonText: {
-    fontSize: 28,
-    color: '#ffffff',
-  },
-  inputBox: {
-    borderBottomWidth: 2,
-    borderBottomColor: '#FCE181',
-    padding: 4,
-    backgroundColor: '#fff',
-    fontSize: 14,
-    color: '#026670',
-    height: 40,
-  },
-  inputHeading: {
-    fontSize: 20,
-    marginTop: 10,
-    paddingLeft: 10,
-    color: '#026670',
-    backgroundColor: '#FEF9C7',
-    borderTopWidth: 2,
-    borderTopColor: '#FCE181',
-  },
-});

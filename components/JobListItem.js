@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { ListItem, Avatar } from 'react-native-elements';
 import { getIconDetails, elapsedTimeString } from '../utils/utils';
+import { styles } from '../styling/JobListItemStyling';
 
 export default function JobListItem({ item }) {
   const date = new Date(item.created_at);
@@ -51,14 +52,3 @@ export default function JobListItem({ item }) {
     </View>
   );
 }
-
-const styles = {
-  listItem: {
-    height: 150,
-    borderBottomWidth: 2,
-    borderBottomColor: '#9FEDD7',
-  },
-  title: {
-    paddingBottom: 12,
-  },
-};

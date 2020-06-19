@@ -1,15 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
-import {
-  View,
-  Text,
-  ScrollView,
-  ActivityIndicator,
-  NativeModules,
-  Platform,
-  StyleSheet,
-  Picker,
-} from 'react-native';
-
+import { View, Text, ScrollView, Picker } from 'react-native';
+import { styles } from '../styling/JobListScreenStyling';
 import HeaderComponent from '../components/HeaderComponent';
 import JobListItem from '../components/JobListItem';
 import Loader from '../components/Loader';
@@ -42,11 +33,15 @@ const JobListScreen = ({ navigation, route }) => {
             user.authtoken,
             sortBy,
             order,
-            filterLocation,
-            filterUsername
+            filterUsername,
+            filterLocation
           )
           .then(({ jobs }) => {
             setJobs(jobs);
+            setLoading(false);
+          })
+          .catch(() => {
+            setJobs([]);
             setLoading(false);
           })
       );
@@ -95,7 +90,9 @@ const JobListScreen = ({ navigation, route }) => {
           </Picker>
         </View>
       </View>
-
+      {jobList.length === 0 && (
+        <Text style={styles.fieldTitle}>You have no jobs</Text>
+      )}
       <ScrollView>
         {jobList.map(item => {
           return (
@@ -112,20 +109,6 @@ const JobListScreen = ({ navigation, route }) => {
       </ScrollView>
     </View>
   );
-};
-
-const styles = {
-  rowContainer: {
-    backgroundColor: '#EDEAE5',
-    flexDirection: 'row',
-  },
-  rowC1: {
-    width: '48%',
-    paddingLeft: 5,
-  },
-  rowC2: {
-    width: '52%',
-  },
 };
 
 export default JobListScreen;

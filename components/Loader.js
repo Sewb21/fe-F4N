@@ -1,7 +1,8 @@
-import React from 'react'
-import { View, Text, ActivityIndicator } from 'react-native'
+import React from 'react';
+import { View, ActivityIndicator } from 'react-native';
+import { styles } from '../styling/LoaderStyling';
 
-export default function Loader({isLoading}) {
+export default function Loader({ isLoading }) {
   return (
     <View style={styles.container}>
       <ActivityIndicator
@@ -13,16 +14,3 @@ export default function Loader({isLoading}) {
     </View>
   );
 }
-
-const styles = {
-  container: {
-    flex: 1,
-    backgroundColor: '#EDEAE5',
-  },
-  activityIndicator: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 80,
-  },
-};

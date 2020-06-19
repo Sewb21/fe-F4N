@@ -5,9 +5,9 @@ import UserContext from '../contexts/UserContext';
 import ImagePickerComponent from '../utils/imagePicker';
 import jobImageUpload from '../api-requests/job-image-upload';
 import Loader from '../components/Loader';
-// import { Picker } from '@react-native-community/picker';
+import { styles } from '../styling/JobAdderStyling';
 
-export default function JobAdder() {
+export default function JobAdder({ navigation }) {
   const user = useContext(UserContext);
 
   const [jobInfo, setJobInfo] = useState({
@@ -15,6 +15,7 @@ export default function JobAdder() {
     body: '',
     username: user.username,
     location: '',
+    pledged_amount: '',
   });
   const [skills, setSkills] = useState([]);
   const [selectedSkill, setSelectedSkill] = useState('');
@@ -43,15 +44,7 @@ export default function JobAdder() {
         return;
       })
       .then(() => {
-        setImage(null);
-        setLoading(false);
-        setJobInfo({
-          title: '',
-          body: '',
-          username: user.username,
-          skill_name: '',
-          location: '',
-        });
+        navigation.navigate('JobList', { filteruser: true });
       })
       .catch(err => {
         console.log(err);
@@ -77,7 +70,7 @@ export default function JobAdder() {
         </View>
         <View style={styles.titleInput}>
           <TextInput
-            placeholder="Enter a title for you request..."
+            placeholder="Enter a title for your request..."
             onChangeText={text => handleTextChange(text, 'title')}
           />
         </View>
@@ -91,6 +84,7 @@ export default function JobAdder() {
             placeholder="Enter a summary of the work involved..."
             multiline={true}
             onChangeText={text => handleTextChange(text, 'body')}
+            numberOfLines={5}
           />
         </View>
       </View>
@@ -126,7 +120,7 @@ export default function JobAdder() {
         <View style={styles.pledgeInput}>
           <TextInput
             placeholder="e.g £25"
-            onChangeText={text => handleTextChange(text, 'location')}
+            onChangeText={text => handleTextChange(text, 'pledged_amount')}
           />
         </View>
       </View>
@@ -143,88 +137,3 @@ export default function JobAdder() {
     </View>
   );
 }
-
-const styles = {
-  container: {
-    flex: 1,
-    backgroundColor: '#e4f5f0',
-  },
-  button: {
-    backgroundColor: '#026670',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 7,
-    padding: 6,
-    paddingLeft: 20,
-    paddingRight: 20,
-    margin: 5,
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 26,
-  },
-  blockContainer: {
-    marginTop: 3,
-    borderTopWidth: 2,
-    borderTopColor: '#FCE181',
-    borderBottomWidth: 2,
-    borderBottomColor: '#FCE181',
-  },
-  rowContainer: {
-    flexDirection: 'row',
-    marginTop: 3,
-    borderTopWidth: 2,
-    borderTopColor: '#FCE181',
-    borderBottomWidth: 2,
-    borderBottomColor: '#FCE181',
-  },
-  headingContainer: {
-    paddingLeft: 10,
-    backgroundColor: '#FEF9C7',
-  },
-  locationHeadingContainer: {
-    paddingLeft: 10,
-    backgroundColor: '#FEF9C7',
-    width: '30%',
-  },
-  pledgeHeadingContainer: {
-    paddingLeft: 10,
-    backgroundColor: '#FEF9C7',
-    width: '30%',
-  },
-  headingText: {
-    fontSize: 20,
-    color: '#026670',
-  },
-  titleInput: {
-    height: 30,
-    backgroundColor: '#FFFFFF',
-    padding: 4,
-  },
-  summaryInput: {
-    height: 80,
-    backgroundColor: '#FFFFFF',
-    padding: 4,
-  },
-  locationInput: {
-    height: 30,
-    backgroundColor: '#FFFFFF',
-    padding: 4,
-    width: '20%',
-  },
-  pledgeInput: {
-    height: 30,
-    backgroundColor: '#FFFFFF',
-    padding: 4,
-    width: '20%',
-  },
-
-  skillPicker: {
-    backgroundColor: '#ffffff',
-    height: 30,
-  },
-  skillPickerItem: {
-    height: 30,
-    color: 'red',
-  },
-};

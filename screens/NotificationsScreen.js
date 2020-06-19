@@ -23,9 +23,18 @@ export default function NotificationsScreen() {
 
   const handleStatusUpdate = (notification_id, status) => {
     api
-      .patchNotifications(notification_id, status, user.username, user.authtoken)
+      .patchNotifications(
+        notification_id,
+        status,
+        user.username,
+        user.authtoken
+      )
       .then(() => {
-        setDisplayedNotifications(displayedNotifications.filter(notification => notification.notification_id !== notification_id));
+        setDisplayedNotifications(
+          displayedNotifications.filter(
+            notification => notification.notification_id !== notification_id
+          )
+        );
       })
       .catch(err => {
         console.log(err);
@@ -35,12 +44,12 @@ export default function NotificationsScreen() {
   if (isLoading) {
     return <Loader isLoading={isLoading} />;
   }
-  if (displayedNotifications.length <= 0) {
-    return <Text style={styles.fieldTitle}>No Notifications</Text>;
-  }
   return (
     <View style={{ flex: 1, backgroundColor: '#e4f5f0' }}>
       <HeaderComponent name="Notifications" />
+      {displayedNotifications.length === 0 && (
+        <Text style={styles.fieldTitle}>No Unread Notifications</Text>
+      )}
       <ScrollView>
         {displayedNotifications.map(notification => {
           return (
@@ -52,7 +61,11 @@ export default function NotificationsScreen() {
                 <Text style={styles.notificationText}>{notification.body}</Text>
               </View>
               <View style={styles.notificationButtonContainer}>
-                <TouchableOpacity onPress={() => handleStatusUpdate(notification.notification_id, 'read')}>
+                <TouchableOpacity
+                  onPress={() =>
+                    handleStatusUpdate(notification.notification_id, 'read')
+                  }
+                >
                   <View style={styles.clearNotificationButton_view}>
                     <Text style={styles.clearNotificationButton_text}>X</Text>
                   </View>

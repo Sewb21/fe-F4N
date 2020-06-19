@@ -1,6 +1,6 @@
 import React from 'react';
-import { Platform, View, Text } from 'react-native';
 import { Header } from 'react-native-elements';
+import { styles } from '../styling/HeaderComponentStyling';
 
 function HeaderComponent({ name }) {
   return (
@@ -12,19 +12,5 @@ function HeaderComponent({ name }) {
     />
   );
 }
-
-const styles = {
-  container: {
-    backgroundColor: '#9FEDD7',
-    justifyContent: 'space-around',
-  },
-  left: {
-    color: '#026670',
-    fontSize: 20,
-    fontWeight: 'bold',
-    width: 500,
-    paddingRight: 200,
-  },
-};
 
 export default HeaderComponent;

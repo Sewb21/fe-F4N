@@ -1,15 +1,12 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import Firebase from '../firebase/firebase';
-import DropDownPicker from 'react-native-dropdown-picker';
+import { styles } from '../styling/LogOutStyling';
 
 export default function LogOut() {
   const handleLogOut = () => {
     Firebase.auth()
       .signOut()
-      .then(() => {
-        // setVisible
-      })
       .catch(error => console.log(error));
   };
 
@@ -21,24 +18,3 @@ export default function LogOut() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  buttonText: {
-    color: 'white',
-    fontSize: 26,
-  },
-  buttonContainer: {
-    backgroundColor: '#026670',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 7,
-    padding: 6,
-    paddingLeft: 20,
-    paddingRight: 20,
-    margin: 5,
-  },
-  buttonText: {
-    fontSize: 28,
-    color: '#ffffff',
-  },
-});

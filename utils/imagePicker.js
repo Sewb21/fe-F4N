@@ -41,20 +41,3 @@ export default function ImagePickerComponent({ setImageObj, children }) {
     </View>
   );
 }
-
-const styles = {
-  button: {
-    backgroundColor: '#026670',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 7,
-    padding: 6,
-    paddingLeft: 20,
-    paddingRight: 20,
-    margin: 5,
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 26,
-  },
-};
