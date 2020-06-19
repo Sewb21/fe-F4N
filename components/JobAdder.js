@@ -1,13 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, Picker } from 'react-native';
 import * as api from '../api-requests/axios-request';
 import UserContext from '../contexts/UserContext';
 import ImagePickerComponent from '../utils/imagePicker';
-
 import jobImageUpload from '../api-requests/job-image-upload';
 import Loader from '../components/Loader';
-import { Picker } from '@react-native-community/picker';
-
+// import { Picker } from '@react-native-community/picker';
 
 export default function JobAdder() {
   const user = useContext(UserContext);
@@ -19,7 +17,7 @@ export default function JobAdder() {
     location: '',
   });
   const [skills, setSkills] = useState([]);
-  const [selectedSkill, setSelectedSkill] = useState("");
+  const [selectedSkill, setSelectedSkill] = useState('');
   const [image, setImage] = useState(null);
   const [isLoading, setLoading] = useState(false);
 
@@ -37,9 +35,8 @@ export default function JobAdder() {
   const handleJobPost = () => {
     setLoading(true);
     api
-      .postJob({ selectedSkill, ...jobInfo }, user.authtoken)
-      .then(({ job_id }) => {
-
+      .postJob({ skill_name: selectedSkill, ...jobInfo }, user.authtoken)
+      .then(({ job: { job_id } }) => {
         if (image) {
           return jobImageUpload(image, job_id, user.authtoken);
         }
@@ -79,8 +76,10 @@ export default function JobAdder() {
           <Text style={styles.headingText}>{'Title'}</Text>
         </View>
         <View style={styles.titleInput}>
-          <TextInput placeholder="Enter a title for you request..."
-          onChangeText={text => handleTextChange(text, 'title')} />
+          <TextInput
+            placeholder="Enter a title for you request..."
+            onChangeText={text => handleTextChange(text, 'title')}
+          />
         </View>
       </View>
       <View style={styles.blockContainer}>
@@ -89,9 +88,9 @@ export default function JobAdder() {
         </View>
         <View style={styles.summaryInput}>
           <TextInput
-          placeholder="Enter a summary of the work involved..."
+            placeholder="Enter a summary of the work involved..."
             multiline={true}
-            onChangetext={text => handleTextChange(text, 'body')}
+            onChangeText={text => handleTextChange(text, 'body')}
           />
         </View>
       </View>
@@ -99,7 +98,6 @@ export default function JobAdder() {
         <View style={styles.headingContainer}>
           <Text style={styles.headingText}>{'Skill Required'}</Text>
         </View>
-
         <Picker
           style={styles.skillPicker}
           selectedValue={selectedSkill}
@@ -117,7 +115,8 @@ export default function JobAdder() {
           <Text style={styles.headingText}>{'Location'}</Text>
         </View>
         <View style={styles.locationInput}>
-          <TextInput placeholder="e.g M50"
+          <TextInput
+            placeholder="e.g M50"
             onChangeText={text => handleTextChange(text, 'location')}
           />
         </View>
@@ -125,12 +124,13 @@ export default function JobAdder() {
           <Text style={styles.headingText}>{'Pledge'}</Text>
         </View>
         <View style={styles.pledgeInput}>
-          <TextInput placeholder="e.g £25"
+          <TextInput
+            placeholder="e.g £25"
             onChangeText={text => handleTextChange(text, 'location')}
           />
         </View>
       </View>
-            <View style={styles.button}>
+      <View style={styles.button}>
         <ImagePickerComponent setImageObj={setImage}>
           <Text style={styles.buttonText}>Upload an Image</Text>
         </ImagePickerComponent>

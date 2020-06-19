@@ -29,7 +29,7 @@ export default function ImagePickerComponent({ setImageObj, children }) {
 
     if (!result.cancelled) {
       setImage(result.uri);
-      //setImageObj(result.uri);
+      setImageObj(result.uri);
     }
   };
   return (

@@ -132,14 +132,17 @@ export default function UserAdder() {
           dropDownStyle={styles.dropDownPickerDropDown}
           containerStyle={styles.dropDownContainer}
           activeItemStyle={styles.dropDownPickerItem}
-          // onChangeItem={item => handleTextChange(item.label, 'skill_name')}
           placeholder="Select a skill"
           multiple={true}
           min={1}
           max={10}
           onChangeItem={item => setUserSkills(item)}
         />
-        <ImagePickerComponent setImageObj={setImage}></ImagePickerComponent>
+        <View style={styles.button}>
+          <ImagePickerComponent setImageObj={setImage}>
+            <Text style={styles.buttonText}>Upload an Image</Text>
+          </ImagePickerComponent>
+        </View>
         <TouchableOpacity onPress={() => handleUserPost(newUserInfo)}>
           <View style={styles.button}>
             <Text style={styles.buttonText}>Sign Up!</Text>

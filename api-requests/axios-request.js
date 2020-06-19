@@ -19,14 +19,13 @@ export const postJob = (jobInfo, authtoken) => {
 };
 
 export const getJobs = (authtoken, sortBy, order, location, username) => {
-  console.log(username);
   let params = { sortBy, order };
-  if ((location !== '') && (location !== undefined)) {
+  if (location !== '' && location !== undefined) {
     params = { ...params, location };
   }
-  if ((username !== '') && (username !== undefined)) {
+  if (username !== '' && username !== undefined) {
     params = { ...params, username };
-  } 
+  }
   return instance
     .get('/api/jobs', {
       headers: { authtoken },
@@ -47,7 +46,7 @@ export const getSpecificJob = (jobID, authtoken) => {
 
 export const getComments = (jobID, authtoken, sortBy, order, charity_name) => {
   let params = { sortBy, order };
-  if ((charity_name !== '') && (charity_name !== undefined)) {
+  if (charity_name !== '' && charity_name !== undefined) {
     params = { ...params, charity_name };
   }
   return instance
