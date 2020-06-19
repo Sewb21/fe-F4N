@@ -18,13 +18,15 @@ export const postJob = (jobInfo, authtoken) => {
     });
 };
 
-export const getJobs = (authtoken, sortBy, order, location) => {
-  let params = {};
-  if (location !== '') {
-    params = { sortBy, order, location };
-  } else {
-    params = { sortBy, order };
+export const getJobs = (authtoken, sortBy, order, location, username) => {
+  console.log(username);
+  let params = { sortBy, order };
+  if ((location !== '') && (location !== undefined)) {
+    params = { ...params, location };
   }
+  if ((username !== '') && (username !== undefined)) {
+    params = { ...params, username };
+  } 
   return instance
     .get('/api/jobs', {
       headers: { authtoken },
@@ -44,11 +46,9 @@ export const getSpecificJob = (jobID, authtoken) => {
 };
 
 export const getComments = (jobID, authtoken, sortBy, order, charity_name) => {
-  let params = {};
-  if (charity_name !== '') {
-    params = { sortBy, order, charity_name };
-  } else {
-    params = { sortBy, order };
+  let params = { sortBy, order };
+  if ((charity_name !== '') && (charity_name !== undefined)) {
+    params = { ...params, charity_name };
   }
   return instance
     .get(`/api/jobs/${jobID}/comments`, {

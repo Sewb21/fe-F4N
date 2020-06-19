@@ -30,7 +30,7 @@ export default function CommentsScreen({ route }) {
   const [filterCharity, setFilterCharity] = useState('');
 
   useEffect(() => {
-    if (newComment) {
+    
       api
         .getComments(job_id, user.authtoken, sortBy, order)
         .then(({ comments }) => {
@@ -47,7 +47,7 @@ export default function CommentsScreen({ route }) {
               setNewComment(false);
             })
         );
-    }
+    
   }, [filterCharity, order, newComment]);
 
   const getUniqueCharities = charities => {
@@ -106,7 +106,7 @@ export default function CommentsScreen({ route }) {
         </View>
       </View>
       <Text style={styles.headingMain}>{':: "' + title + '"'}</Text>
-      <ScrollView contentContainerStyle={styles.scrollView}>
+      <ScrollView>
         {displayedComments.map(comment => {
           const date = new Date(comment.created_at);
 
@@ -154,7 +154,7 @@ export default function CommentsScreen({ route }) {
 const styles = {
   headingMain: {
     borderBottomWidth: 2,
-    borderBottomColor: '#FCE181',
+    borderBottomColor: '#9FEDD7',
     fontSize: 20,
     color: '#026670',
     paddingLeft: 10,
@@ -229,14 +229,11 @@ const styles = {
     textAlign: 'right',
   },
 
-  container: {
-    height: '100%',
-  },
   commentView: {
     height: 125,
     backgroundColor: '#fff',
     borderBottomWidth: 2,
-    borderBottomColor: '#FCE181',
+    borderBottomColor: '#9FEDD7',
   },
   rowContainerListItemTop: {
     flexDirection: 'row',
@@ -265,7 +262,7 @@ const styles = {
     color: '#026670',
     backgroundColor: '#fff',
     borderBottomWidth: 2,
-    borderBottomColor: '#FCE181',
+    borderBottomColor: '#9FEDD7',
   },
   rowContainerSortBar: {
     backgroundColor: '#EDEAE5',
