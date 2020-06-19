@@ -45,7 +45,6 @@ const MyAccountScreen = () => {
       <HeaderComponent name="My Account" />
       <ScrollView>
         <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-          <View style={styles.image_view}></View>
           <ImagePickerComponent setImageObj={setImage}>
             <Image
               style={styles.userAvatar}
