@@ -105,3 +105,25 @@ export const postComment = (job_id, comment, authtoken) => {
     headers: { authtoken },
   });
 };
+
+export const getNotifications = (username, authtoken) => {
+  return instance
+    .get(`/api/users/${username}/notifications`, {
+      headers: { authtoken },
+    })
+    .then(({ data }) => {
+      return data;
+    });
+};
+
+export const patchNotifications = (notification_id, status, username, authtoken) => {
+  return instance
+    .patch(
+      `/api/users/${username}/notifications/${notification_id}`,
+      { status },
+      { headers: { authtoken } }
+    )
+    .then(({ data }) => {
+      return data;
+    });
+};
