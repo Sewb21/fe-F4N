@@ -1,21 +1,21 @@
-import * as api from '../api-requests/axios-request';
+import * as api from './axios-request';
 import { storage } from '../firebase/firebase';
 
-export default function jobImageUpload(image, job_id, authtoken) {
+export default function avatarUploader(image, username, uid) {
   return fetch(image)
     .then(res => {
       return res.blob();
     })
     .then(blob => {
       return storage
-        .ref('jobs')
-        .child(job_id + '/job-image.jpg')
+        .ref('users')
+        .child(uid + '/profile.jpg')
         .put(blob);
     })
     .then(snapshot => {
       return snapshot.ref.getDownloadURL();
     })
-    .then(image_url => {
-      return api.patchJob(job_id, image_url, authtoken);
+    .then(avatar_url => {
+      return api.patchUser(avatar_url, username);
     });
 }

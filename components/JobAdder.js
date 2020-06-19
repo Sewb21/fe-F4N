@@ -3,7 +3,11 @@ import { View, Text, TouchableOpacity, TextInput } from 'react-native';
 import * as api from '../api-requests/axios-request';
 import UserContext from '../contexts/UserContext';
 import ImagePickerComponent from '../utils/imagePicker';
+
+import jobImageUpload from '../api-requests/job-image-upload';
+import Loader from '../components/Loader';
 import { Picker } from '@react-native-community/picker';
+
 
 export default function JobAdder() {
   const user = useContext(UserContext);
@@ -17,6 +21,7 @@ export default function JobAdder() {
   const [skills, setSkills] = useState([]);
   const [selectedSkill, setSelectedSkill] = useState("");
   const [image, setImage] = useState(null);
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     api
@@ -30,12 +35,26 @@ export default function JobAdder() {
   }, []);
 
   const handleJobPost = () => {
+    setLoading(true);
     api
       .postJob({ selectedSkill, ...jobInfo }, user.authtoken)
       .then(({ job_id }) => {
+
         if (image) {
-          jobImageUpload(image, job_id, user.authtoken);
+          return jobImageUpload(image, job_id, user.authtoken);
         }
+        return;
+      })
+      .then(() => {
+        setImage(null);
+        setLoading(false);
+        setJobInfo({
+          title: '',
+          body: '',
+          username: user.username,
+          skill_name: '',
+          location: '',
+        });
       })
       .catch(err => {
         console.log(err);
@@ -48,6 +67,10 @@ export default function JobAdder() {
     updatedJobInfo[key] = text;
     setJobInfo(updatedJobInfo);
   };
+
+  if (isLoading) {
+    return <Loader isLoading={isLoading} />;
+  }
 
   return (
     <View style={styles.container}>
@@ -107,7 +130,11 @@ export default function JobAdder() {
           />
         </View>
       </View>
-      <ImagePickerComponent setImageObj={setImage}></ImagePickerComponent>
+            <View style={styles.button}>
+        <ImagePickerComponent setImageObj={setImage}>
+          <Text style={styles.buttonText}>Upload an Image</Text>
+        </ImagePickerComponent>
+      </View>
       <TouchableOpacity onPress={() => handleJobPost(jobInfo)}>
         <View style={styles.button}>
           <Text style={styles.buttonText}>Post Job</Text>

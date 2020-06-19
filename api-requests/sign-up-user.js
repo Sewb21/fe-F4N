@@ -1,11 +1,19 @@
 import { auth, storage } from '../firebase/firebase';
 import * as api from './axios-request';
-import { set } from 'react-native-reanimated';
+import avatarUploader from './avatar-image-uploader';
 
 export const userSignUp = (newUserInfo, userSkills, image) => {
-  const { password, skill_name, ...userInfoNoPassword } = newUserInfo;
+  const {
+    email,
+    password,
+    username,
+    skill_name,
+    ...userInfoNoPassword
+  } = newUserInfo;
   const userInfoPost = {
     skill_name: userSkills,
+    email,
+    username,
     ...userInfoNoPassword,
   };
 
@@ -16,7 +24,7 @@ export const userSignUp = (newUserInfo, userSkills, image) => {
     })
     .then(auth => {
       if (image) {
-        return avatarUploader(image, auth);
+        return avatarUploader(image, username, auth.user.uid);
       }
     })
     .catch(err => {

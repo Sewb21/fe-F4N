@@ -3,7 +3,7 @@ import { TouchableOpacity, Text, Image, View } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 
-export default function ImagePickerComponent({ setImageObj }) {
+export default function ImagePickerComponent({ setImageObj, children }) {
   const [image, setImage] = useState(null);
 
   useEffect(() => {
@@ -29,15 +29,12 @@ export default function ImagePickerComponent({ setImageObj }) {
 
     if (!result.cancelled) {
       setImage(result.uri);
-      setImageObj(result.uri);
+      //setImageObj(result.uri);
     }
   };
-
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <TouchableOpacity style={styles.button} onPress={pickImage}>
-        <Text style={styles.buttonText}>Upload an Image</Text>
-      </TouchableOpacity>
+      <TouchableOpacity onPress={pickImage}>{children}</TouchableOpacity>
       {image && (
         <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
       )}

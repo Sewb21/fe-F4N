@@ -8,13 +8,13 @@ export const getSkills = () => {
   return instance.get('/api/skills').then(({ data }) => {
     return data;
   });
-
 };
 
 export const postJob = (jobInfo, authtoken) => {
   return instance
     .post('/api/jobs', jobInfo, { headers: { authtoken } })
     .then(({ data }) => {
+      return data;
     });
 };
 
@@ -66,7 +66,7 @@ export const getCharities = () => {
   });
 };
 
-export const postUser = (userInfo, avatarURL) => {
+export const postUser = userInfo => {
   return instance.post('/api/users', userInfo).then(({ data }) => {
     return data;
   });
@@ -86,22 +86,23 @@ export const getUser = (email, authtoken) => {
 };
 
 export const patchUser = (avatar_url, username) => {
-  // return instance.patch('/api/users', avatar_url).then(({ data }) => {
-  //   return data;
-  // });
+  return instance
+    .patch(`/api/users/${username}`, { avatar_url })
+    .then(({ data }) => {
+      return data;
+    });
 };
 
-export const patchJob = (image_url, authtoken) => {
-  // return instance.patch(`/api/jobs/${job_id}`, image_url, { headers: { authtoken } }).then(({ data }) => {
-  //   return data;
-  // });
+export const patchJob = (job_id, job_image, authtoken) => {
+  return instance
+    .patch(`/api/jobs/${job_id}`, { job_image }, { headers: { authtoken } })
+    .then(({ data }) => {
+      return data;
+    });
 };
 
 export const postComment = (job_id, comment, authtoken) => {
-  return instance.post(
-    `/api/jobs/${job_id}/comments`,
-    comment,
-    { headers: { authtoken } }
-  );
-}
-
+  return instance.post(`/api/jobs/${job_id}/comments`, comment, {
+    headers: { authtoken },
+  });
+};
