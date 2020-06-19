@@ -81,7 +81,6 @@ export const getUser = (email, authtoken) => {
       headers: { authtoken },
     })
     .then(({ data: { users } }) => {
-      console.log(users);
       return users[0];
     });
 };

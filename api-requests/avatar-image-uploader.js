@@ -7,27 +7,15 @@ export default function avatarUploader(image, username, uid) {
       return res.blob();
     })
     .then(blob => {
-      storage
+      return storage
         .ref('users')
         .child(uid + '/profile.jpg')
-        .put(blob)
-        .on(
-          'state_changed',
-          null,
-          error => {
-            console.log(error);
-          },
-          () => {
-            storage
-              .ref('users')
-              .child(uid + '/profile.jpg')
-              .getDownloadURL()
-              .then(avatar_url => {
-                api.patchUser(avatar_url, username).catch(err => {
-                  console.log(err);
-                });
-              });
-          }
-        );
+        .put(blob);
+    })
+    .then(snapshot => {
+      return snapshot.ref.getDownloadURL();
+    })
+    .then(avatar_url => {
+      return api.patchUser(avatar_url, username);
     });
 }
