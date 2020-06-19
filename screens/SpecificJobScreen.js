@@ -119,8 +119,8 @@ export default function SpecificJobScreen({ navigation, route }) {
           )}
         </View>
       </View>
-      {specificJob.job_image && (
-        <View>
+      {specificJob.job_image ? (
+        <ImagePickerComponent setImageObj={setImage}>
           <Image
             style={{
               height: 100,
@@ -132,9 +132,14 @@ export default function SpecificJobScreen({ navigation, route }) {
               uri: specificJob.job_image,
             }}
           />
-        </View>
+        </ImagePickerComponent>
+      ) : (
+        <TouchableOpacity style={styles.button} onPress={handleJobImageUpdate}>
+          <ImagePickerComponent>
+            <Text style={styles.buttonText}>Upload Image!</Text>
+          </ImagePickerComponent>
+        </TouchableOpacity>
       )}
-      <ImagePickerComponent setImageObj={setImage}></ImagePickerComponent>
       {image && (
         <TouchableOpacity onPress={handleJobImageUpdate}>
           <View style={styles.button}>
@@ -147,6 +152,12 @@ export default function SpecificJobScreen({ navigation, route }) {
 }
 
 const styles = {
+  image: {
+    height: 100,
+    width: 100,
+    paddingLeft: 100,
+    alignItems: 'center',
+  },
   button: {
     backgroundColor: '#026670',
     alignItems: 'center',

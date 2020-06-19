@@ -101,7 +101,11 @@ export default function JobAdder() {
         style={styles.inputBox}
         onChangeText={text => handleTextChange(text, 'location')}
       />
-      <ImagePickerComponent setImageObj={setImage}></ImagePickerComponent>
+      <View style={styles.button}>
+        <ImagePickerComponent setImageObj={setImage}>
+          <Text style={styles.buttonText}>Upload an Image</Text>
+        </ImagePickerComponent>
+      </View>
       <TouchableOpacity onPress={() => handleJobPost(jobInfo)}>
         <View style={styles.button}>
           <Text style={styles.buttonText}>Post Job</Text>

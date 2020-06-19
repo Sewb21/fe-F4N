@@ -29,7 +29,7 @@ const MyAccountScreen = () => {
     api
       .getUser(user.email, user.authtoken)
       .then(userData => setUserDetails(userData), setLoading(false));
-  }, []);
+  }, [image]);
 
   const handleUserAvatarUpdate = () => {
     setLoading(true);
@@ -45,6 +45,22 @@ const MyAccountScreen = () => {
       <HeaderComponent name="My Account" />
       <ScrollView>
         <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+          <View style={styles.image_view}></View>
+          <ImagePickerComponent setImageObj={setImage}>
+            <Image
+              style={styles.userAvatar}
+              source={{
+                uri: userDetails.avatar_url,
+              }}
+            />
+          </ImagePickerComponent>
+          {image && (
+            <TouchableOpacity onPress={handleUserAvatarUpdate}>
+              <View style={styles.button}>
+                <Text style={styles.buttonText}>Change avatar</Text>
+              </View>
+            </TouchableOpacity>
+          )}
           <View style={styles.title_view}>
             <Text style={styles.title_text}>{'Username'}</Text>
           </View>
@@ -93,22 +109,6 @@ const MyAccountScreen = () => {
           <View style={styles.view}>
             <Text style={styles.text}>{'£' + userDetails.amount_raised}</Text>
           </View>
-          <View style={styles.image_view}>
-            <Image
-              style={styles.userAvatar}
-              source={{
-                uri: userDetails.avatar_url,
-              }}
-            />
-          </View>
-          <ImagePickerComponent setImageObj={setImage}></ImagePickerComponent>
-          {image && (
-            <TouchableOpacity onPress={handleUserAvatarUpdate}>
-              <View style={styles.button}>
-                <Text style={styles.buttonText}>Change avatar</Text>
-              </View>
-            </TouchableOpacity>
-          )}
           <LogOut />
         </View>
       </ScrollView>

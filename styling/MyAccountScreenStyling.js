@@ -18,7 +18,9 @@ export const styles = {
     width: 100,
     paddingLeft: 100,
     alignItems: 'center',
+    borderRadius: 50,
   },
+  image_view: {},
   title_view: {
     borderTopWidth: 2,
     borderTopColor: '#FCE181',
