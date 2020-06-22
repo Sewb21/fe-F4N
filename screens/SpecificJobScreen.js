@@ -154,14 +154,16 @@ export default function SpecificJobScreen({ navigation, route }) {
         </View>
         <View style={styles.rowC9_view}>
           {specificJob.username !== user.username ? (
-            <TouchableOpacity
-              onPress={handleHelpOffer}
-              disabled={offerButtonDisabled}
-            >
-              <View style={styles.helperButton_view}>
-                <Text style={styles.helperButton_text}>{'Offer Help'}</Text>
-              </View>
-            </TouchableOpacity>
+            !offerButtonDisabled && (
+              <TouchableOpacity
+                onPress={handleHelpOffer}
+                disabled={offerButtonDisabled}
+              >
+                <View style={styles.helperButton_view}>
+                  <Text style={styles.helperButton_text}>{'Offer Help'}</Text>
+                </View>
+              </TouchableOpacity>
+            )
           ) : image ? (
             <TouchableOpacity onPress={handleJobImageUpdate}>
               <View style={styles.uploadButton_view}>
