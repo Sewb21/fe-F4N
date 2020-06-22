@@ -4,7 +4,15 @@ export const styles = {
     borderBottomWidth: 2,
     borderBottomColor: '#9FEDD7',
   },
-  title: {
-    paddingBottom: 12,
+  title_view: {
+    paddingLeft: 10,
+    paddingBottom: 5,
+  },
+  title_text: {
+    fontSize: 16,
+    fontWeight: '500',
+  },
+  subtitle_view: {
+    paddingLeft: 10,
   },
 };

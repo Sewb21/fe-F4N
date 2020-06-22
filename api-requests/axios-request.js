@@ -18,13 +18,23 @@ export const postJob = (jobInfo, authtoken) => {
     });
 };
 
-export const getJobs = (authtoken, sortBy, order, username, location) => {
+export const getJobs = (
+  authtoken,
+  sortBy,
+  order,
+  username,
+  job_status,
+  location
+) => {
   let params = { sortBy, order };
   if (location !== '' && location !== undefined) {
     params = { ...params, location };
   }
   if (username !== '' && username !== undefined) {
     params = { ...params, username };
+  }
+  if (job_status !== '' && job_status !== undefined) {
+    params = { ...params, job_status };
   }
   return instance
     .get('/api/jobs', {
@@ -150,6 +160,42 @@ export const postNotification = (username, body, authtoken) => {
       { username, body },
       { headers: { authtoken } }
     )
+    .then(({ data }) => {
+      return data;
+    });
+};
+
+export const getHelpersByJobId = (job_id, authtoken) => {
+  return instance
+    .get(`/api/jobs/${job_id}/helpers`, { headers: { authtoken } })
+    .then(({ data }) => {
+      return data;
+    });
+};
+
+export const patchHelperStatus = (
+  username,
+  job_id,
+  helper_status,
+  authtoken
+) => {
+  return instance
+    .patch(
+      `/api/jobs/${job_id}/helpers`,
+      {
+        username,
+        helper_status,
+      },
+      { headers: { authtoken } }
+    )
+    .then(({ data }) => {
+      return data;
+    });
+};
+
+export const patchJobStatus = (job_id, job_status, authtoken) => {
+  return instance
+    .patch(`/api/jobs/${job_id}`, { job_status }, { headers: { authtoken } })
     .then(({ data }) => {
       return data;
     });

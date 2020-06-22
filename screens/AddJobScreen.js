@@ -5,7 +5,7 @@ import JobAdder from '../components/JobAdder';
 const AddJobScreen = ({ navigation }) => {
   return (
     <>
-      <HeaderComponent name="Add Job" />
+      <HeaderComponent name="Post a New Request" />
       <JobAdder navigation={navigation} />
     </>
   );

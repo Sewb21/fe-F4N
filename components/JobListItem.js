@@ -12,23 +12,20 @@ export default function JobListItem({ item }) {
       <ListItem
         containerStyle={styles.listItem}
         key={item.job_id}
-        title={'"' + item.title + '"'}
+        title={
+          <View style={styles.title_view}>
+            <Text style={styles.title_text}>{'"' + item.title + '"'}</Text>
+          </View>
+        }
         subtitle={
-          <>
+          <View style={styles.subtitle_view}>
             <Text>{item.username + ' , fundraising for ' + 'charityXYZ'}</Text>
             <Text>{item.location + ' ' + item.job_status}</Text>
             <Text>{elapsedTimeString(date)}</Text>
-            <Avatar
-              size="small"
-              rounded
-              source={{
-                uri: item.avatar_url,
-              }}
-              activeOpacity={0.7}
-            />
-          </>
+          </View>
         }
         titleStyle={styles.title}
+        subtitleStyle={styles.subtitle}
         leftAvatar={
           <Avatar
             size="medium"
@@ -36,7 +33,7 @@ export default function JobListItem({ item }) {
             rounded
             icon={{
               name: getIconDetails(item.skill_name).name,
-              color: '#EDEAE5',
+              color: getIconDetails(item.skill_name).color,
               type: getIconDetails(item.skill_name).type,
             }}
             activeOpacity={0.7}

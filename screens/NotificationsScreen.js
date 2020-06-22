@@ -15,7 +15,6 @@ export default function NotificationsScreen() {
     api
       .getNotifications(user.username, user.authtoken)
       .then(({ notifications }) => {
-        console.log(notifications[0]);
         setDisplayedNotifications(notifications);
         setLoading(false);
       });

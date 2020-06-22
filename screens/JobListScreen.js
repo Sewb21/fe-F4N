@@ -17,13 +17,15 @@ const JobListScreen = ({ navigation, route }) => {
   const [locations, setLocations] = useState([]);
   const [filterLocation, setFilterLocation] = useState('');
   let filterUsername = '';
+  let filterStatus = 'cr';
   if (route.params.filteruser) {
     filterUsername = user.username;
+    filterStatus = '';
   }
 
   useEffect(() => {
     api
-      .getJobs(user.authtoken, sortBy, order, filterUsername)
+      .getJobs(user.authtoken, sortBy, order, filterUsername, filterStatus)
       .then(({ jobs }) => {
         setLocations(getUniqueLocations(jobs.map(job => job.location)));
       })

@@ -28,7 +28,6 @@ export const styles = {
     borderBottomColor: '#FCE181',
     backgroundColor: '#FEF9C7',
     paddingLeft: 10,
-    width: '75%',
     justifyContent: 'center',
   },
   title_text: {
@@ -42,7 +41,6 @@ export const styles = {
     borderBottomColor: '#FCE181',
     backgroundColor: 'white',
     paddingLeft: 10,
-    width: '75%',
     justifyContent: 'center',
   },
   text: {

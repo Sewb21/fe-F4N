@@ -41,77 +41,77 @@ const MyAccountScreen = () => {
 
   if (isLoading) return <Loader isLoading={isLoading} />;
   return (
-    <>
+    <View
+      style={{ flex: 1, backgroundColor: '#e4f5f0', justifyContent: 'center' }}
+    >
       <HeaderComponent name="My Account" />
       <ScrollView>
-        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-          <ImagePickerComponent setImageObj={setImage}>
-            <Image
-              style={styles.userAvatar}
-              source={{
-                uri: userDetails.avatar_url,
-              }}
-            />
-          </ImagePickerComponent>
-          {image && (
-            <TouchableOpacity onPress={handleUserAvatarUpdate}>
-              <View style={styles.button}>
-                <Text style={styles.buttonText}>Change avatar</Text>
-              </View>
-            </TouchableOpacity>
-          )}
-          <View style={styles.title_view}>
-            <Text style={styles.title_text}>{'Username'}</Text>
-          </View>
-          <View style={styles.view}>
-            <Text style={styles.text}>{userDetails.username}</Text>
-          </View>
-          <View style={styles.title_view}>
-            <Text style={styles.title_text}>{'Email'}</Text>
-          </View>
-          <View style={styles.view}>
-            <Text style={styles.text}>{userDetails.email}</Text>
-          </View>
-          <View style={styles.title_view}>
-            <Text style={styles.title_text}>{'First Name'}</Text>
-          </View>
-          <View style={styles.view}>
-            <Text style={styles.text}>{userDetails.first_name}</Text>
-          </View>
-          <View style={styles.title_view}>
-            <Text style={styles.title_text}>{'Last Name'}</Text>
-          </View>
-          <View style={styles.view}>
-            <Text style={styles.text}>{userDetails.last_name}</Text>
-          </View>
-          <View style={styles.title_view}>
-            <Text style={styles.title_text}>{'Location'}</Text>
-          </View>
-          <View style={styles.view}>
-            <Text style={styles.text}>{userDetails.location}</Text>
-          </View>
-          <View style={styles.title_view}>
-            <Text style={styles.title_text}>{'Bio'}</Text>
-          </View>
-          <View style={styles.view}>
-            <Text style={styles.text}>{userDetails.bio}</Text>
-          </View>
-          <View style={styles.title_view}>
-            <Text style={styles.title_text}>{'Charity Name'}</Text>
-          </View>
-          <View style={styles.view}>
-            <Text style={styles.text}>{userDetails.charity_name}</Text>
-          </View>
-          <View style={styles.title_view}>
-            <Text style={styles.title_text}>{'Amount Raised'}</Text>
-          </View>
-          <View style={styles.view}>
-            <Text style={styles.text}>{'£' + userDetails.amount_raised}</Text>
-          </View>
-          <LogOut />
+        <ImagePickerComponent setImageObj={setImage}>
+          <Image
+            style={styles.userAvatar}
+            source={{
+              uri: userDetails.avatar_url,
+            }}
+          />
+        </ImagePickerComponent>
+        {image && (
+          <TouchableOpacity onPress={handleUserAvatarUpdate}>
+            <View style={styles.button}>
+              <Text style={styles.buttonText}>Change avatar</Text>
+            </View>
+          </TouchableOpacity>
+        )}
+        <View style={styles.title_view}>
+          <Text style={styles.title_text}>{'Username'}</Text>
         </View>
+        <View style={styles.view}>
+          <Text style={styles.text}>{userDetails.username}</Text>
+        </View>
+        <View style={styles.title_view}>
+          <Text style={styles.title_text}>{'Email'}</Text>
+        </View>
+        <View style={styles.view}>
+          <Text style={styles.text}>{userDetails.email}</Text>
+        </View>
+        <View style={styles.title_view}>
+          <Text style={styles.title_text}>{'First Name'}</Text>
+        </View>
+        <View style={styles.view}>
+          <Text style={styles.text}>{userDetails.first_name}</Text>
+        </View>
+        <View style={styles.title_view}>
+          <Text style={styles.title_text}>{'Last Name'}</Text>
+        </View>
+        <View style={styles.view}>
+          <Text style={styles.text}>{userDetails.last_name}</Text>
+        </View>
+        <View style={styles.title_view}>
+          <Text style={styles.title_text}>{'Location'}</Text>
+        </View>
+        <View style={styles.view}>
+          <Text style={styles.text}>{userDetails.location}</Text>
+        </View>
+        <View style={styles.title_view}>
+          <Text style={styles.title_text}>{'Bio'}</Text>
+        </View>
+        <View style={styles.view}>
+          <Text style={styles.text}>{userDetails.bio}</Text>
+        </View>
+        <View style={styles.title_view}>
+          <Text style={styles.title_text}>{'Charity Name'}</Text>
+        </View>
+        <View style={styles.view}>
+          <Text style={styles.text}>{userDetails.charity_name}</Text>
+        </View>
+        <View style={styles.title_view}>
+          <Text style={styles.title_text}>{'Amount Raised'}</Text>
+        </View>
+        <View style={styles.view}>
+          <Text style={styles.text}>{'£' + userDetails.amount_raised}</Text>
+        </View>
+        <LogOut />
       </ScrollView>
-    </>
+    </View>
   );
 };
 

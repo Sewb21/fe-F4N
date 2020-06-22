@@ -1,13 +1,17 @@
 export const styles = {
+  helperPicker: {
+    backgroundColor: '#ffffff',
+    height: 30,
+  },
   imageContainer: {
-    flexDirection: 'column',
+    marginTop: 30,
     justifyContent: 'center',
     alignItems: 'center',
-    height: '50%',
+    height: 275,
   },
   image: {
-    height: '50%',
-    width: '50%',
+    height: 200,
+    width: 200,
   },
   button: {
     backgroundColor: '#026670',

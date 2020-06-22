@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TouchableOpacity, Image, Picker } from 'react-native';
 import Loader from '../components/Loader';
 import { elapsedTimeString } from '../utils/utils';
 import HeaderComponent from '../components/HeaderComponent';
@@ -17,12 +17,21 @@ export default function SpecificJobScreen({ navigation, route }) {
   const [isLoading, setLoading] = useState(true);
   const job_id = route.params.job_id;
   const [offerButtonDisabled, setOfferButtonDisabled] = useState(false);
+  const [helpers, setHelpers] = useState([]);
+  const [selectedHelper, setSelectedHelper] = useState('');
 
   useEffect(() => {
-    api.getSpecificJob(job_id, user.authtoken).then(({ job }) => {
-      setSpecificJob(job);
-      setLoading(false);
-    });
+    api
+      .getHelpersByJobId(job_id, user.authtoken)
+      .then(({ helpers }) => {
+        setHelpers(helpers.map(helper => helper.username));
+      })
+      .then(() => {
+        api.getSpecificJob(job_id, user.authtoken).then(({ job }) => {
+          setSpecificJob(job);
+          setLoading(false);
+        });
+      });
   }, [image]);
 
   const handleJobImageUpdate = () => {
@@ -45,6 +54,29 @@ export default function SpecificJobScreen({ navigation, route }) {
       .then(() => {
         setOfferButtonDisabled(true);
       });
+  };
+
+  const handleSelectHelper = () => {
+    api
+      .patchJobStatus(job_id, 'helping', user.authtoken)
+      .then(() => {
+        api.patchHelperStatus(
+          selectedHelper,
+          job_id,
+          'helping',
+          user.authtoken
+        );
+      })
+      .then(() => {
+        return api.postNotification(
+          selectedHelper,
+          `${user.username} has accepted your offer to help.`
+        );
+      });
+  };
+
+  const handleJobComplete = () => {
+    api.patchJobStatus(job_id, 'complete', user.authtoken);
   };
 
   if (isLoading) {
@@ -149,14 +181,55 @@ export default function SpecificJobScreen({ navigation, route }) {
           )}
         </View>
       </View>
-      {specificJob.job_image && (
-        <View style={styles.imageContainer}>
+      {specificJob.username === user.username && (
+        <View style={styles.rowContainerR3_view}>
+          <View style={styles.rowC8_view}>
+            <TouchableOpacity onPress={handleSelectHelper}>
+              <View style={styles.commentsButton_view}>
+                <Text style={styles.commentsButton_text}>
+                  {'Choose Helper'}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.rowC9_view}>
+            <Picker
+              style={styles.helperPicker}
+              selectedValue={selectedHelper}
+              onValueChange={setSelectedHelper}
+            >
+              <Picker.Item label="Select a helper" value="" />
+              {helpers.map((helper, index) => {
+                return (
+                  <Picker.Item key={index} label={helper} value={helper} />
+                );
+              })}
+            </Picker>
+          </View>
+        </View>
+      )}
+      <View style={styles.imageContainer}>
+        {specificJob.job_image && (
           <Image
             style={styles.image}
             source={{
               uri: specificJob.job_image,
             }}
           />
+        )}
+      </View>
+      {specificJob.username === user.username && (
+        <View style={styles.rowContainerR3_view}>
+          <View style={styles.rowC8_view}>
+            <TouchableOpacity onPress={handleJobComplete}>
+              <View style={styles.commentsButton_view}>
+                <Text style={styles.commentsButton_text}>
+                  {'Job Completed?'}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.rowC9_view}></View>
         </View>
       )}
     </View>
