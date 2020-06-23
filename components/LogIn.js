@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, TextInput } from 'react-native';
 import Firebase from '../firebase/firebase';
 import { styles } from '../styling/LogInStyling';
+import HeaderComponent from './HeaderComponent';
+import { Image } from 'react-native-elements';
 
 export default function LogIn() {
   const [userInfo, setUserInfo] = useState({ email: '', password: '' });
@@ -22,7 +24,17 @@ export default function LogIn() {
   };
 
   return (
-    <View>
+    <View style={{ flex: 1, backgroundColor: '#e4f5f0' }}>
+      <HeaderComponent name="Welcome to F4N" />
+      <View style={styles.image}>
+        <Image
+          source={{
+            uri:
+              'https://filedn.com/lQJfVGhXSkSJSxgrjbFupmB/f4n_house_trans_300.png',
+          }}
+          style={{ width: 300, height: 300 }}
+        />
+      </View>
       <Text style={styles.inputHeading}>{'Email'}</Text>
       <TextInput
         style={styles.inputBox}

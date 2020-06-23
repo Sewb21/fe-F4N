@@ -14,9 +14,9 @@ const TabNavigation = () => {
           let iconName;
 
           if (route.name === 'Login') {
-            iconName = focused ? 'md-log-in' : 'md-log-in';
+            iconName = 'md-log-in';
           } else if (route.name === 'Sign Up') {
-            iconName = focused ? 'md-person-add' : 'md-person-add';
+            iconName = 'md-person-add';
           }
 
           return <Ionicons name={iconName} size={size} color={color} />;

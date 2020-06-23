@@ -1,4 +1,10 @@
 export const styles = {
+  image: {
+    alignItems: 'center',
+    paddingTop: 50,
+    paddingBottom: 40,
+    paddingRight: 10,
+  },
   container: {
     flex: 1,
     backgroundColor: '#EDEAE5',
@@ -25,6 +31,7 @@ export const styles = {
     justifyContent: 'center',
     borderRadius: 7,
     padding: 6,
+    marginTop: 10,
     paddingLeft: 20,
     paddingRight: 20,
     margin: 5,

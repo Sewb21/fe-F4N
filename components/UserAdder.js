@@ -12,6 +12,7 @@ import ImagePickerComponent from '../utils/imagePicker';
 import { userSignUp } from '../api-requests/sign-up-user';
 import Loader from './Loader';
 import { styles } from '../styling/UserAdderStyling';
+import HeaderComponent from './HeaderComponent';
 
 export default function UserAdder() {
   const [newUserInfo, setNewUserInfo] = useState({
@@ -79,6 +80,7 @@ export default function UserAdder() {
 
   return (
     <View style={{ flex: 1, backgroundColor: '#e4f5f0' }}>
+      <HeaderComponent name="Sign Up" />
       <ScrollView>
         <Text style={styles.inputHeading}>{'Username'}</Text>
         <TextInput

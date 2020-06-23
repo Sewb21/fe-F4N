@@ -29,13 +29,14 @@ const JobListScreen = ({ navigation, route }) => {
       .then(({ jobs }) => {
         setLocations(getUniqueLocations(jobs.map(job => job.location)));
       })
-      .then(
+      .then(() => {
         api
           .getJobs(
             user.authtoken,
             sortBy,
             order,
             filterUsername,
+            filterStatus,
             filterLocation
           )
           .then(({ jobs }) => {
@@ -45,8 +46,8 @@ const JobListScreen = ({ navigation, route }) => {
           .catch(() => {
             setJobs([]);
             setLoading(false);
-          })
-      );
+          });
+      });
   }, [filterLocation, order]);
 
   const getUniqueLocations = locations => {

@@ -35,7 +35,7 @@ export const styles = {
     marginTop: 2,
   },
   button4: {
-    backgroundColor: '#026670',
+    backgroundColor: '#D10000',
     alignItems: 'center',
     borderRadius: 7,
     paddingTop: 6,
@@ -66,5 +66,11 @@ export const styles = {
     backgroundColor: '#FEF9C7',
     borderTopWidth: 2,
     borderTopColor: '#FCE181',
+  },
+  image: {
+    alignItems: 'center',
+    paddingTop: 50,
+    paddingBottom: 40,
+    paddingRight: 10,
   },
 };
